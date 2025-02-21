@@ -7,17 +7,32 @@ networks:
 
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:main
+    build:
+      dockerfile: Dockerfile
+      context: open-webui
+      args:
+        USE_CUDA: false
+        USE_OLLAMA: false
+    environment:
+      # See https://docs.openwebui.com/getting-started/env-configuration/
+      GLOBAL_LOG_LEVEL: DEBUG
+      DATA_DIR: /app/backend/data
+      ENV: dev
+      PORT: 8080
+      ENABLE_OLLAMA_API: false
+      OLLAMA_BASE_URL: 'http://localhost:11434'
+      ENABLE_OPENAI_API: false
     networks:
       - app
       - frontend
     ports:
-      - "8080"
+      - "3000:8080"
     cap_add:
       - SYS_ADMIN
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
+      - ./open-webui/backend:/app/backend
       - .docker/data/storage:/app/backend/data
     labels:
       - "traefik.enable=true"

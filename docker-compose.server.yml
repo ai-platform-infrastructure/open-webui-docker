@@ -7,7 +7,12 @@ networks:
 
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:main
+    build:
+      dockerfile: Dockerfile
+      context: open-webui
+      args:
+        USE_CUDA: false
+        USE_OLLAMA: false
     networks:
       - app
       - frontend
