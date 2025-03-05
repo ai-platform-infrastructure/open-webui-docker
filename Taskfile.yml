@@ -1,0 +1,49 @@
+version: '3'
+
+# https://taskfile.dev/usage/#env-files
+dotenv: ['.env.local', '.env']
+
+vars:
+  # https://taskfile.dev/reference/templating/
+  BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
+  DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
+  OPEN_WEBUI_REPO: 'https://github.com/open-webui/open-webui.git'
+
+tasks:
+  default:
+    desc: 'List all tasks'
+    cmds:
+      - task --list-all
+    silent: true
+
+  compose:
+    desc: "Run `docker compose` command. Example: task compose -- up --detach"
+    cmds:
+      - '{{ .DOCKER_COMPOSE }} {{ .CLI_ARGS }}'
+
+
+  install:
+    desc: "Install new web-ui"
+    cmds:
+      - task build
+      - task compose -- down
+      - task compose -- pull
+      - task compose -- up --detach
+    silent: true
+
+  build:
+    desc: "Build container with newset requirements"
+    cmds:
+      - task compose -- build
+    silent: true
+
+  clone:
+    desc: "Clone open-webui core"
+    cmds:
+      - git clone {{ .OPEN_WEBUI_REPO }}
+    silent: true
+
+  open:
+    desc: Open the silent
+    cmds:
+      - open http://{{ .BASE_URL }}
