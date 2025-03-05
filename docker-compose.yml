@@ -13,6 +13,7 @@ services:
       args:
         USE_CUDA: false
         USE_OLLAMA: false
+    command: [ "bash", "start.sh"]
     environment:
       # See https://docs.openwebui.com/getting-started/env-configuration/
       GLOBAL_LOG_LEVEL: DEBUG
@@ -35,6 +36,7 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./open-webui/backend:/app/backend
+      - ./open-webui/build:/app/build
       - .docker/data/storage:/app/backend/data
     labels:
       - "traefik.enable=true"
@@ -43,3 +45,10 @@ services:
   #      HTTPS config - uncomment to enable redirect from :80 to :443
   #      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
   #      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+
+  node:
+    image: node:22-alpine3.20
+    working_dir: /app
+    command: npm run check:watch
+    volumes:
+      - ./open-webui:/app

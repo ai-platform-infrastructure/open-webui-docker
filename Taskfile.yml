@@ -21,20 +21,26 @@ tasks:
     cmds:
       - '{{ .DOCKER_COMPOSE }} {{ .CLI_ARGS }}'
 
-
   install:
     desc: "Install new web-ui"
     cmds:
-      - task build
-      - task compose -- down
       - task compose -- pull
-      - task compose -- up --detach
+      - task container:build
+      - task compose -- up --detach --force-recreate
+      - task frontend:build
     silent: true
 
-  build:
-    desc: "Build container with newset requirements"
+  container:build:
+    desc: "Build container with newest requirements"
     cmds:
       - task compose -- build
+    silent: true
+
+  frontend:build:
+    desc: "Build frontend"
+    cmds:
+      - task compose -- run --rm -it node npm ci
+      - task compose -- run --rm -it node npm run build
     silent: true
 
   clone:
