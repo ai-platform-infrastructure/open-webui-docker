@@ -37,6 +37,7 @@ services:
     volumes:
       - ./open-webui/backend:/app/backend
       - ./open-webui/build:/app/build
+      - .docker/start.sh:/app/start.sh
       - .docker/data/storage:/app/backend/data
     labels:
       - "traefik.enable=true"
