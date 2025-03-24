@@ -26,7 +26,7 @@ services:
       # Disable OpenAI.
       ENABLE_OPENAI_API: false
       # Postgress setup
-      DATABASE_UR: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@$postgres:5432/postgres
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
     networks:
       - app
       - frontend
