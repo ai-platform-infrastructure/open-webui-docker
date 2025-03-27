@@ -16,13 +16,17 @@ services:
     restart: unless-stopped
     environment:
       # See https://docs.openwebui.com/getting-started/env-configuration/
+      GLOBAL_LOG_LEVEL: INFO
       DATA_DIR: /app/backend/data
       ENV: dev
       PORT: 8080
+      # Disable ollama as default, prevent UI from freezing when not avaible on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
+      # Disable OpenAI.
       ENABLE_OPENAI_API: false
-      COMFYUI_API_KEY: '132456789'
+      # Postgress setup
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
     networks:
       - app
       - frontend
@@ -50,7 +54,9 @@ services:
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_HOST: localhost
     networks:
       - app
     ports:
