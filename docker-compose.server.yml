@@ -13,9 +13,9 @@ services:
       args:
         USE_CUDA: false
         USE_OLLAMA: false
+    restart: unless-stopped
     environment:
       # See https://docs.openwebui.com/getting-started/env-configuration/
-      GLOBAL_LOG_LEVEL: DEBUG
       DATA_DIR: /app/backend/data
       ENV: dev
       PORT: 8080
@@ -28,6 +28,9 @@ services:
       - frontend
     ports:
       - "8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     cap_add:
       - SYS_ADMIN
     extra_hosts:
@@ -43,3 +46,19 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_SERVER_DOMAIN}`)"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - app
+    ports:
+      - "5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - .docker/data/postgres:/var/lib/postgresql/data 
