@@ -76,3 +76,12 @@ services:
     command: npm run check:watch
     volumes:
       - ./open-webui:/app
+
+  tika:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/tika
+    networks:
+      - app
+    ports:
+      - "9998"
