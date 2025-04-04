@@ -85,3 +85,26 @@ services:
       - app
     ports:
       - "9998"
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    command: [
+      "--config", "/app/config.yaml",
+      "--detailed_debug",
+      "--num_workers", "8"
+    ]
+    environment:
+      LITELLM_MASTER_KEY: sk-1234
+      LITELLM_SALT_KEE: sk-1234
+    networks:
+      - app
+    ports:
+      - "4000"
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:4000/health/liveliness" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml
