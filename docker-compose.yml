@@ -94,8 +94,8 @@ services:
       "--num_workers", "8"
     ]
     environment:
-      LITELLM_MASTER_KEY: sk-1234
-      LITELLM_SALT_KEE: sk-1234
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-1234}
+      LITELLM_SALT_KEY: ${LITELLM_SALT_KEY:-sk-1234}
     networks:
       - app
     ports:
