@@ -40,6 +40,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      tika:
+        condition: service_healthy
+      litellm:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
     cap_add:
       - SYS_ADMIN
     extra_hosts:
@@ -78,6 +84,12 @@ services:
       dockerfile: Dockerfile
       context: .docker/tika
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     networks:
       - app
 
