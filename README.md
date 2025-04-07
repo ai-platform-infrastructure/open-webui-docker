@@ -12,6 +12,10 @@ task clone
 task install
 ```
 
+### Storage
+
+Log into minio and create the bucket "openwebui" before uploading files.
+
 ## Usage
 
 ```shell
