@@ -27,6 +27,13 @@ services:
       ENABLE_OPENAI_API: false
       # Postgress setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      # MinIO configuration
+      STORAGE_PROVIDER: "s3"
+      S3_ENDPOINT_URL: "http://minio:9000"
+      S3_ACCESS_KEY_ID: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      S3_BUCKET_NAME: "openwebui"
+      S3_USE_SSL: "false"
     networks:
       - app
       - frontend
@@ -34,6 +41,12 @@ services:
       - "8080"
     depends_on:
       postgres:
+        condition: service_healthy
+      tika:
+        condition: service_healthy
+      litellm:
+        condition: service_healthy
+      minio:
         condition: service_healthy
     cap_add:
       - SYS_ADMIN
@@ -83,6 +96,12 @@ services:
       context: .docker/tika
     networks:
       - app
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
     ports:
       - "9998"
 
@@ -108,3 +127,37 @@ services:
       start_period: 40s
     volumes:
       - ./litellm_config.yaml:/app/config.yaml
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    networks:
+      - app
+      - frontend
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    volumes:
+      - .docker/data/minio:/data
+    command: server /data --console-address ":9001"
+    ports:
+      # API port
+      - "9000"
+      # Console port
+      - "9001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=frontend"
+      # MinIO API
+      - "traefik.http.routers.minio-api-${COMPOSE_PROJECT_NAME}.rule=Host(`minio-api.${COMPOSE_DOMAIN}`)"
+      - "traefik.http.routers.minio-api-${COMPOSE_PROJECT_NAME}.service=minio-api-${COMPOSE_PROJECT_NAME}"
+      - "traefik.http.services.minio-api-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9000"
+      # MinIO Console
+      - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.rule=Host(`minio.${COMPOSE_DOMAIN}`)"
+      - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.service=minio-console-${COMPOSE_PROJECT_NAME}"
+      - "traefik.http.services.minio-console-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9001"
