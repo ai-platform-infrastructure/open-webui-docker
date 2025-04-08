@@ -1,3 +1,6 @@
+include:
+  - docker-compose.oidc.yml
+
 networks:
   frontend:
     external: true
@@ -20,7 +23,21 @@ services:
       DATA_DIR: /app/backend/data
       ENV: dev
       PORT: 8080
-      # Disable ollama as default, prevent UI from freezing when not avaible on localhost. 
+      WEBUI_URL: "http://${COMPOSE_DOMAIN}"
+      WEBUI_NAME: "ITK AI Platform"
+      # OIDC
+      ENABLE_SIGNUP: false
+      ENABLE_LOGIN_FORM: false
+      ENABLE_OAUTH_SIGNUP: true
+      # Important: Only use for AAK SSO/OIDC as we need to be able to trust the email provided!
+      # Docs: "This is considered insecure as not all OAuth providers verify email addresses, and may allow accounts to be hijacked."
+      # @see https://docs.openwebui.com/features/sso/#oauth
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
+      OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
+      # Disable ollama as default, prevent UI from freezing when not avaible on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
       # Disable OpenAI.
@@ -62,8 +79,8 @@ services:
       - "traefik.docker.network=frontend"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${COMPOSE_DOMAIN}`)"
   #      HTTPS config - uncomment to enable redirect from :80 to :443
-  #      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
-  #      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
 
   postgres:
     image: postgres:17

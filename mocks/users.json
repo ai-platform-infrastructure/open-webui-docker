@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/users"
+  },
+  "response": {
+    "body": [
+      {
+        "userprincipalname": "department3-editor@example.com"
+      },
+      {
+        "userprincipalname": "department2-editor@example.com"
+      }
+    ]
+  }
+}
