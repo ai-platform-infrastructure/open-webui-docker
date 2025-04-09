@@ -37,12 +37,16 @@ services:
       OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
       OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
       OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
-      # Disable ollama as default, prevent UI from freezing when not avaible on localhost.
+      # Change the default claims mapping.
+      OAUTH_EMAIL_CLAIM: ${OAUTH_EMAIL_CLAIM:-upn}
+      OAUTH_ROLES_CLAIM: ${OAUTH_ROLES_CLAIM:-role}
+      ENABLE_OAUTH_ROLE_MANAGEMENT: ${ENABLE_OAUTH_ROLE_MANAGEMENT:-true}
+      # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
       # Disable OpenAI.
       ENABLE_OPENAI_API: false
-      # Postgress setup
+      # Postgres setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
       # MinIO configuration
       STORAGE_PROVIDER: "s3"

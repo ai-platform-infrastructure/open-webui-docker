@@ -81,9 +81,9 @@ services:
         - Name: openid
           ClaimTypes:
             - sub
-        - Name: email
+        - Name: upn
           ClaimTypes:
-            - email
+            - upn
         - Name: profile
           ClaimTypes:
             # Add your custom claims here
@@ -97,7 +97,7 @@ services:
           Password: department1-admin
           Claims:
             # Claims added here must be defined above in IDENTITY_RESOURCES_INLINE
-          - Type: email
+          - Type: upn
             Value: 'department1-admin@example.com'
             ValueType: string
           - Type: name
@@ -114,7 +114,7 @@ services:
           Username: department2-editor
           Password: department2-editor
           Claims:
-          - Type: email
+          - Type: upn
             Value: 'department2-editor@example.com'
             ValueType: string
           - Type: name
@@ -131,7 +131,7 @@ services:
           Username: department3-editor
           Password: department3-editor
           Claims:
-          - Type: email
+          - Type: upn
             Value: 'department3-editor@example.com'
             ValueType: string
           - Type: name
