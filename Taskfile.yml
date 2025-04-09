@@ -24,6 +24,7 @@ tasks:
   install:
     desc: "Install new web-ui"
     cmds:
+      - cp .env.default .env
       - task compose -- pull
       - task container:build
       - task compose -- up --detach --force-recreate
