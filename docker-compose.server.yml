@@ -20,6 +20,7 @@ services:
       DATA_DIR: /app/backend/data
       ENV: dev
       PORT: 8080
+      WEBUI_URL: "https://${COMPOSE_SERVER_DOMAIN}"
       # OIDC
       ENABLE_SIGNUP: false
       ENABLE_LOGIN_FORM: true
