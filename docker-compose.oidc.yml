@@ -3,18 +3,19 @@ services:
   idp:
     image: ghcr.io/soluto/oidc-server-mock:latest
     # Let this container be accessible both internally and externally on the same domain.
-    container_name: idp.${COMPOSE_DOMAIN}
+    container_name: idp-${COMPOSE_DOMAIN}
     networks:
       - app
       - frontend
     ports:
       - '80'
+      - '443'
     volumes:
       - .:/tmp/config:ro
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=frontend"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_idp.rule=Host(`idp2.${COMPOSE_DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_idp.rule=Host(`idp-${COMPOSE_DOMAIN}`)"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_idp.loadbalancer.server.port=443"
       - "traefik.http.services.${COMPOSE_PROJECT_NAME}_idp.loadbalancer.server.scheme=https"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_idp.middlewares=redirect-to-https"
@@ -24,8 +25,8 @@ services:
       ASPNETCORE_URLS: https://+:443;http://+:80
       ASPNETCORE_Kestrel__Certificates__Default__Password: mock
       ASPNETCORE_Kestrel__Certificates__Default__Path: /tmp/config/.docker/oidc-server-mock/cert/docker.pfx
-
       ASPNETCORE_ENVIRONMENT: Development
+
       SERVER_OPTIONS_INLINE: |
         AccessTokenJwtType: JWT
         Discovery:
@@ -142,19 +143,3 @@ services:
           - Type: groups
             Value: '["editor"]'
             ValueType: json
-
-  idp_mock_api:
-    image: dotronglong/faker:stable
-    profiles:
-      - oidc
-    networks:
-      - app
-      - frontend
-    volumes:
-      - ./mocks:/app/mocks
-    ports:
-      - "3030"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=frontend"
-      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}_idp_mock_api.rule=Host(`idp_mock_api.${COMPOSE_DOMAIN}`)"
