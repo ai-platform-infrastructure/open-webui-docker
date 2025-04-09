@@ -54,3 +54,12 @@ tasks:
     desc: Open the silent
     cmds:
       - open http://{{ .BASE_URL }}
+
+  prod:build:image:
+    desc: Build docker image and push to docker hub
+    vars:
+      TAG: '{{if .CLI_ARGS}}{{.CLI_ARGS}}{{else}}latest{{end}}'
+    cmds:
+      - docker compose --file docker-compose.server.yml build --no-cache
+      - docker tag openwebui-openwebui itkdev/openwebui:{{.TAG}}
+      - docker push itkdev/openwebui:{{.TAG}}

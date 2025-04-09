@@ -7,12 +7,7 @@ networks:
 
 services:
   openwebui:
-    build:
-      dockerfile: Dockerfile
-      context: open-webui
-      args:
-        USE_CUDA: false
-        USE_OLLAMA: false
+    image: itkdev/openwebui:${OPENWEBUI_VERSION:-latest}
     restart: unless-stopped
     environment:
       # See https://docs.openwebui.com/getting-started/env-configuration/
