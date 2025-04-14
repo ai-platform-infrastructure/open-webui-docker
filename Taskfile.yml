@@ -60,7 +60,7 @@ tasks:
     vars:
       TAG: '{{if .CLI_ARGS}}{{.CLI_ARGS}}{{else}}beta{{end}}'
     cmds:
-      - docker compose --file docker-compose.server.yml build --no-cache --pull
+      - COMPOSE_BAKE=true docker compose --file docker-compose.yml build --no-cache --pull openwebui
       - docker tag openwebui-openwebui itkdev/openwebui:{{.TAG}}
       - docker tag openwebui-openwebui itkdev/openwebui:latest
       - docker push itkdev/openwebui:{{.TAG}}

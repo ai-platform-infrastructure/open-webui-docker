@@ -23,15 +23,15 @@ services:
       # OIDC
       ENABLE_SIGNUP: false
       ENABLE_LOGIN_FORM: true
-      ENABLE_OAUTH_SIGNUP: true
+      ENABLE_OAUTH_SIGNUP: ${ENABLE_OAUTH_SIGNUP:-false}
       # Important: Only use for AAK SSO/OIDC as we need to be able to trust the email provided!
       # Docs: "This is considered insecure as not all OAuth providers verify email addresses, and may allow accounts to be hijacked."
       # @see https://docs.openwebui.com/features/sso/#oauth
       OAUTH_MERGE_ACCOUNTS_BY_EMAIL: true
-      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
-      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
-      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL}
-      OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME}
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID:-''}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET:-''}
+      OPENID_PROVIDER_URL: ${OPENID_PROVIDER_URL:-''}
+      OAUTH_PROVIDER_NAME: ${OAUTH_PROVIDER_NAME:-''}
       # Change the default claims mapping.
       OAUTH_EMAIL_CLAIM: ${OAUTH_EMAIL_CLAIM:-upn}
       OAUTH_ROLES_CLAIM: ${OAUTH_ROLES_CLAIM:-role}
