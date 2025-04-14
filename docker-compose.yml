@@ -24,8 +24,9 @@ services:
       ENV: ${ENV_MODE:-dev}
       PORT: 8080
       WEBUI_NAME: "ITK AI Platform"
-      WEBUI_URL: "https://${COMPOSE_SERVER_DOMAIN}"
+      WEBUI_URL: "https://${COMPOSE_DOMAIN}"
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-*}
+      USER_AGENT: ${USER_AGENT:-'Aarhus Kommune AI'}
       # OPEN TELEMETRY
       ENABLE_OTEL: ${ENABLE_OTEL:-false}
       # OIDC
@@ -44,6 +45,10 @@ services:
       OAUTH_EMAIL_CLAIM: ${OAUTH_EMAIL_CLAIM:-upn}
       OAUTH_ROLES_CLAIM: ${OAUTH_ROLES_CLAIM:-role}
       ENABLE_OAUTH_ROLE_MANAGEMENT: ${ENABLE_OAUTH_ROLE_MANAGEMENT:-true}
+      OAUTH_ALLOWED_ROLES: ${OAUTH_ALLOWED_ROLES:-admin,user}
+      OAUTH_ADMIN_ROLES: ${OAUTH_ADMIN_ROLES:-admin}
+      # RAG
+      RAG_EMBEDDING_MODEL: ${RAG_EMBEDDING_MODEL:-intfloat/multilingual-e5-large}
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'

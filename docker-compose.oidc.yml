@@ -81,65 +81,74 @@ services:
         - Name: openid
           ClaimTypes:
             - sub
-        - Name: upn
+        - Name: email
           ClaimTypes:
-            - upn
+            - email
         - Name: profile
           ClaimTypes:
             # Add your custom claims here
             - name
-            - groups
+            - upn
+            - role
             - magistratsafdeling
 
       USERS_CONFIGURATION_INLINE: |
         - SubjectId: 1
-          Username: department1-admin
-          Password: department1-admin
+          Username: admin
+          Password: admin
           Claims:
-            # Claims added here must be defined above in IDENTITY_RESOURCES_INLINE
+          - Type: email
+            Value: 'admin@itkdev.dk'
+            ValueType: string
           - Type: upn
-            Value: 'department1-admin@example.com'
+            Value: 'admin@itkdev.dk'
             ValueType: string
           - Type: name
-            Value: 'department1-admin'
+            Value: 'Admin Adminsen'
             ValueType: string
           - Type: magistratsafdeling
             Value: 'Department 1'
             ValueType: string
-          - Type: groups
-            Value: '["editor"]'
+          - Type: role
+            Value: '["admin"]'
             ValueType: json
 
         - SubjectId: 2
-          Username: department2-editor
-          Password: department2-editor
+          Username: editor
+          Password: editor
           Claims:
+          - Type: email
+            Value: 'editor@itkdev.dk'
+            ValueType: string
           - Type: upn
-            Value: 'department2-editor@example.com'
+            Value: 'editor@itkdev.dk'
             ValueType: string
           - Type: name
-            Value: 'department2-editor'
+            Value: 'Editor Editorsen'
             ValueType: string
           - Type: magistratsafdeling
             Value: 'Department 2'
             ValueType: string
-          - Type: groups
+          - Type: role
             Value: '["editor"]'
             ValueType: json
 
         - SubjectId: 3
-          Username: department3-editor
-          Password: department3-editor
+          Username: user
+          Password: user
           Claims:
+          - Type: email
+            Value: 'user@itkdev.dk'
+            ValueType: string
           - Type: upn
-            Value: 'department3-editor@example.com'
+            Value: 'user@itkdev.dk'
             ValueType: string
           - Type: name
-            Value: 'department3-editor'
+            Value: 'User Usersen'
             ValueType: string
           - Type: magistratsafdeling
             Value: 'Department 3'
             ValueType: string
-          - Type: groups
-            Value: '["editor"]'
+          - Type: role
+            Value: '["user"]'
             ValueType: json
