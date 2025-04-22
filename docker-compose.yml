@@ -88,8 +88,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./open-webui/backend:/app/backend
-      - ./open-webui/build:/app/build
+      - ./open-webui:/app
       - .docker/start.sh:/app/backend/start.sh
       - .docker/data/storage:/app/backend/data
     labels:
@@ -121,7 +120,7 @@ services:
   node:
     image: node:22-alpine3.20
     working_dir: /app
-    command: npm run check:watch
+    command: npm run build:watch
     volumes:
       - ./open-webui:/app
 
