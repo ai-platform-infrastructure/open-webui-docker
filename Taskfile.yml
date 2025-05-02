@@ -7,7 +7,7 @@ vars:
   # https://taskfile.dev/reference/templating/
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
-  OPEN_WEBUI_REPO: 'https://github.com/open-webui/open-webui.git'
+  OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
 
 tasks:
   default:
