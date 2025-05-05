@@ -212,3 +212,26 @@ services:
       - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.rule=Host(`minio.${COMPOSE_DOMAIN}`)"
       - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.service=minio-console-${COMPOSE_PROJECT_NAME}"
       - "traefik.http.services.minio-console-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9001"
+
+  mcpo:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/mcpo
+    networks:
+      - app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000"
+    volumes:
+      - ./mcpo_config.json:/config.json
+
+  mcp-weather:
+    image: itkdev/mcp-sse-weather
+    networks:
+      - app
+    ports:
+      - "9000"
+    environment:
+      # https://www.weatherapi.com
+      WEATHER_API_KEY: ${WEATHER_API_KEY}
