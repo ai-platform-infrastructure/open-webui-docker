@@ -77,6 +77,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+      minio-init:
+          condition: service_completed_successfully
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health/db" ]
       interval: 30s
@@ -162,6 +164,20 @@ services:
       start_period: 40s
     volumes:
       - ./litellm_config.yaml:/app/config.yaml
+
+  minio-init:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks:
+      - app
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 ${MINIO_ROOT_USER:-minioadmin} ${MINIO_ROOT_PASSWORD:-minioadmin};
+      /usr/bin/mc mb --ignore-existing myminio/openwebui;
+      exit 0;
+      "
 
   minio:
     image: minio/minio:latest
