@@ -235,3 +235,13 @@ services:
     environment:
       # https://www.weatherapi.com
       WEATHER_API_KEY: ${WEATHER_API_KEY}
+
+  mcp-leantime:
+    image: itkdev/mcp-leantime
+    networks:
+      - app
+    ports:
+      - "9000"
+    environment:
+      LEANTIME_URL: ${LEANTIME_URL}
+      LEANTIME_KEY: ${LEANTIME_KEY}

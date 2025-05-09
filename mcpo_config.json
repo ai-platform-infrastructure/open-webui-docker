@@ -6,6 +6,9 @@
     },
     "weather": {
       "url": "http://mcp-weather:9000/sse"
+    },
+    "leantime": {
+      "url": "http://mcp-leantime:9000/sse"
     }
   }
 }
