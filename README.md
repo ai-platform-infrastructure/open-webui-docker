@@ -2,7 +2,6 @@
 
 https://docs.openwebui.com/
 
-
 ## Install
 
 Use the taks file to install it.
