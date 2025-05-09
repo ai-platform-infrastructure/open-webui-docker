@@ -12,6 +12,10 @@ task clone
 task install
 ```
 
+### Task install
+
+Installs open-webui from this fork of [open-webui](https://github.com/itk-dev/open-webui).
+
 ### Storage
 
 Log into minio and create the bucket "openwebui" before uploading files.
