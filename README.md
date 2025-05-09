@@ -2,8 +2,13 @@
 
 https://docs.openwebui.com/
 
-
 ## Install
+
+If this is the first time you are installing, you should copy the following config:
+
+```shell
+cp litellm_config.example.yaml litellm_config.yaml
+```
 
 Use the taks file to install it.
 
