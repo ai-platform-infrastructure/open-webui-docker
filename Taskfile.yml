@@ -31,6 +31,11 @@ tasks:
       - task frontend:build
     silent: true
 
+  copy:config:
+    desc: "Copy config file from example, if it does not exist"
+    cmds:
+      - if ! [ -f litellm_config.yaml ]; then cp litellm_config.example.yaml litellm_config.yaml; fi
+
   container:build:
     desc: "Build container with newest requirements"
     cmds:
