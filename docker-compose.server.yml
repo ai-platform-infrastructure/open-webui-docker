@@ -18,6 +18,8 @@ services:
       WEBUI_URL: "https://${COMPOSE_SERVER_DOMAIN}"
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-*}
       USER_AGENT: ${USER_AGENT:-'Aarhus Kommune AI'}
+      # Language/local
+      DEFAULT_LOCALE: ${DEFAULT_LOCALE:-da-DK}
       # OPEN TELEMETRY
       ENABLE_OTEL: ${ENABLE_OTEL:-false}
       # OIDC
