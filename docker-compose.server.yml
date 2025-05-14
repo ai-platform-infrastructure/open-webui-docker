@@ -47,6 +47,8 @@ services:
       OLLAMA_BASE_URL: 'http://localhost:11434'
       # Disable OpenAI.
       ENABLE_OPENAI_API: false
+      # Disable direct connections (do not allow users to connect to new servers)
+      ENABLE_DIRECT_CONNECTIONS: ${ENABLE_DIRECT_CONNECTIONS:-false}
       # Postgress setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
       # MinIO configuration
