@@ -58,6 +58,8 @@ services:
       ENABLE_OPENAI_API: false
       # Disable direct connections (do not allow users to connect to new servers)
       ENABLE_DIRECT_CONNECTIONS: ${ENABLE_DIRECT_CONNECTIONS:-false}
+      # User profile notification webhooks
+      ENABLE_USER_WEBHOOKS: ${ENABLE_USER_WEBHOOKS:-false}
       # Postgres setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
       # MinIO configuration
