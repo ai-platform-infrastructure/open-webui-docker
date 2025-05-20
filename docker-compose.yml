@@ -49,6 +49,7 @@ services:
       ENABLE_OAUTH_ROLE_MANAGEMENT: ${ENABLE_OAUTH_ROLE_MANAGEMENT:-true}
       OAUTH_ALLOWED_ROLES: ${OAUTH_ALLOWED_ROLES:-admin,user}
       OAUTH_ADMIN_ROLES: ${OAUTH_ADMIN_ROLES:-admin}
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
       # RAG
       RAG_EMBEDDING_MODEL: ${RAG_EMBEDDING_MODEL:-intfloat/multilingual-e5-large}
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
