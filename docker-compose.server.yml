@@ -54,6 +54,8 @@ services:
       ENABLE_USER_WEBHOOKS: ${ENABLE_USER_WEBHOOKS:-false}
       # Disable api key generation (in user profile)
       ENABLE_API_KEY: ${ENABLE_API_KEY:-false}
+      # Sharing
+      ENABLE_COMMUNITY_SHARING: ${ENABLE_COMMUNITY_SHARING:-false}
       # Postgres setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
       # MinIO configuration
