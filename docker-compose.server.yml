@@ -71,6 +71,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      tika:
+        condition: service_healthy
       litellm:
         condition: service_healthy
       minio:
@@ -115,6 +117,20 @@ services:
       retries: 10
     volumes:
       - .docker/data/postgres:/var/lib/postgresql/data 
+
+  tika:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/tika
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - app
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable

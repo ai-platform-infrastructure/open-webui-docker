@@ -31,7 +31,6 @@ services:
       DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en-GB}
       # OPEN TELEMETRY
       ENABLE_OTEL: ${ENABLE_OTEL:-false}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://alloy:4317}
       # OIDC
       ENABLE_SIGNUP: true
       ENABLE_LOGIN_FORM: true
@@ -82,6 +81,8 @@ services:
       - "8080"
     depends_on:
       postgres:
+        condition: service_healthy
+      tika:
         condition: service_healthy
       litellm:
         condition: service_healthy
@@ -141,6 +142,21 @@ services:
     command: npm run build:watch
     volumes:
       - ./open-webui:/app
+
+  tika:
+    build:
+      dockerfile: Dockerfile
+      context: .docker/tika
+    networks:
+      - app
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    ports:
+      - "9998"
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
