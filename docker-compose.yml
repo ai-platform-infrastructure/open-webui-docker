@@ -31,6 +31,7 @@ services:
       DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en-GB}
       # OPEN TELEMETRY
       ENABLE_OTEL: ${ENABLE_OTEL:-false}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://alloy:4317}
       # OIDC
       ENABLE_SIGNUP: true
       ENABLE_LOGIN_FORM: true
