@@ -7,9 +7,6 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
-- [PR8](https://github.com/itk-dev/open-webui/pull/8) - 4356
-  Allow users to have access to set a system prompt but disable all the advanced chat settings.
-
 
 ## [0.1.0]
 

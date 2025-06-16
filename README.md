@@ -50,12 +50,10 @@ at the same time track local changes/patches to the codebase.
 
 ### Branches
 
-* patching/frontend (collective changes for the front-end can be used to fork from when making PR)
-* patching/backend (collective changes for the front-end can be used to fork from when making PR)
 * merged/dev (merge of the patching branches)
 * merged/main (merge of upstream and local dev branch for next patched release)
 
-All branches will be kept up to date with upstream branches (dev and main).
+All branches will be kept up to date with upstream branches (dev and main). Please use rebase if
 
 ### Rules
 
