@@ -59,12 +59,11 @@ All branches will be kept up to date with upstream branches (dev and main). Plea
 
 So the following rules should help with this goal.
 
-1. Prefix all commits with a ticket number, and each feature should have its own ticket, this is to be able to remove a
-   single change or isolate a change for easier merge conflict handling.
+1. Prefix all commits with a ticket number, this is to be able to remove a single change or isolate a change for easier
+   merge conflict handling.
 2. Always first try to make at pull request back
    to [https://github.com/open-webui/open-webui/](https://github.com/open-webui/open-webui/), if the request is
-   declined,
-   make a new pull request to the patche branch above base on what you changes are.
+   declined, make a new pull request to the patche branch above based on what you change are.
 3. Then update the [change log](https://github.com/itk-dev/open-webui-docker/blob/main/CHANGELOG.md) in this repository,
    so we can track changes between releases.
 
