@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR10](https://github.com/itk-dev/open-webui/pull/10)
+   Show current model description above chat input
+
 
 ## [0.1.0]
 
