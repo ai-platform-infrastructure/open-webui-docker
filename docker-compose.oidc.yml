@@ -114,41 +114,61 @@ services:
             ValueType: json
 
         - SubjectId: 2
-          Username: editor
-          Password: editor
+          Username: end-user
+          Password: end-user
           Claims:
           - Type: email
-            Value: 'editor@itkdev.dk'
+            Value: 'end-user@itkdev.dk'
             ValueType: string
           - Type: upn
-            Value: 'editor@itkdev.dk'
+            Value: 'end-user@itkdev.dk'
             ValueType: string
           - Type: name
-            Value: 'Editor Editorsen'
+            Value: 'End-user Endersen'
             ValueType: string
           - Type: magistratsafdeling
             Value: 'Department 2'
             ValueType: string
           - Type: role
-            Value: '["editor"]'
+            Value: '["end-user"]'
             ValueType: json
 
         - SubjectId: 3
-          Username: user
-          Password: user
+          Username: local-admin
+          Password: local-admin
           Claims:
           - Type: email
-            Value: 'user@itkdev.dk'
+            Value: 'local-admin@itkdev.dk'
             ValueType: string
           - Type: upn
-            Value: 'user@itkdev.dk'
+            Value: 'local-admin@itkdev.dk'
             ValueType: string
           - Type: name
-            Value: 'User Usersen'
+            Value: 'local-admin Lokalensen'
             ValueType: string
           - Type: magistratsafdeling
             Value: 'Department 3'
             ValueType: string
           - Type: role
-            Value: '["user"]'
+            Value: '["local-admin"]'
+            ValueType: json
+
+        - SubjectId: 4
+          Username: builder
+          Password: builder
+          Claims:
+          - Type: email
+            Value: 'builder@itkdev.dk'
+            ValueType: string
+          - Type: upn
+            Value: 'builder@itkdev.dk'
+            ValueType: string
+          - Type: name
+            Value: 'builder Buildersen'
+            ValueType: string
+          - Type: magistratsafdeling
+            Value: 'Department 4'
+            ValueType: string
+          - Type: role
+            Value: '["builder"]'
             ValueType: json
