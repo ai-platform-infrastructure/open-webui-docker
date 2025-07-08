@@ -63,6 +63,8 @@ services:
       ENABLE_API_KEY: ${ENABLE_API_KEY:-false}
       # Sharing
       ENABLE_COMMUNITY_SHARING: ${ENABLE_COMMUNITY_SHARING:-false}
+      # Disable image capture
+      USER_PERMISSIONS_CHAT_IMAGE_CAPTURE: ${USER_PERMISSIONS_CHAT_IMAGE_CAPTURE:-false}
       # Postgres setup
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
       # MinIO configuration
