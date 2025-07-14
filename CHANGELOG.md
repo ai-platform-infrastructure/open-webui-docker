@@ -7,8 +7,24 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR18](https://github.com/itk-dev/open-webui/pull/18)
+   This "pins" the banner, only the banner where dismiss is not saved in `localStorage`, to the current chat.
+- [PR17](https://github.com/itk-dev/open-webui/pull/17)
+   Revert ['show current description above chat input'](https://github.com/itk-dev/open-webui/pull/10)
+- [PR15](https://github.com/itk-dev/open-webui/pull/15)
+   Added permission to enable/disable image capture 
+- [PR14](https://github.com/itk-dev/open-webui/pull/14)
+   Added permission to enable/disable image capture 
+- [PR13](https://github.com/itk-dev/open-webui/pull/13)
+   Add functions to set role and groups from aak oidc org claims  
+- [PR13](https://github.com/itk-dev/open-webui/pull/13)
+   Add functions to set role and groups from aak oidc org claims  
 - [PR10](https://github.com/itk-dev/open-webui/pull/10)
    Show current model description above chat input
+- [PR9](https://github.com/itk-dev/open-webui/pull/9)
+   Revert ['Added new permission to disable adv chat settings'](https://github.com/itk-dev/open-webui/pull/8)
+- [PR8](https://github.com/itk-dev/open-webui/pull/8)
+   Added new permission to disable adv chat settings
 
 
 ## [0.1.0]
