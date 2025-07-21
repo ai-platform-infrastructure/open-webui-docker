@@ -46,14 +46,14 @@ tasks:
   frontend:build:
     desc: "Build frontend"
     cmds:
-      - task compose -- run --rm -it node npm ci
+      - task compose -- run --rm -it node npm ci --force
       - task compose -- run --rm -it node npm run build
     silent: true
 
   frontend:dev:build:
     desc: "Build frontend"
     cmds:
-      - task compose -- run --rm -it -e ENV=dev node npm ci
+      - task compose -- run --rm -it -e ENV=dev node npm ci --force
       - task compose -- run --rm -it -e ENV=dev node npm run build
     silent: true
 
