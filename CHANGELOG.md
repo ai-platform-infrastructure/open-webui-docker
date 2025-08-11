@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR20] (https://github.com/itk-dev/open-webui/pull/20)
+  Extra check of OIDC group mappings
 - [PR18](https://github.com/itk-dev/open-webui/pull/18)
    This "pins" the banner, only the banner where dismiss is not saved in `localStorage`, to the current chat.
 - [PR17](https://github.com/itk-dev/open-webui/pull/17)
