@@ -13,6 +13,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: open-webui
+      platforms:
+        - "linux/amd64"
       args:
         USE_CUDA: false
         USE_OLLAMA: false
