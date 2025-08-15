@@ -36,8 +36,8 @@ services:
       OTEL_BASIC_AUTH_USERNAME: ${OTEL_BASIC_AUTH_USERNAME-""}
       OTEL_BASIC_AUTH_PASSWORD: ${OTEL_BASIC_AUTH_PASSWORD-""}
       # OIDC
-      ENABLE_SIGNUP: true
-      ENABLE_LOGIN_FORM: true
+      ENABLE_SIGNUP: ${ENABLE_SIGNUP:-false}
+      ENABLE_LOGIN_FORM: ${ENABLE_LOGIN_FORM:-false}
       ENABLE_OAUTH_SIGNUP: true
       # Important: Only use for AAK SSO/OIDC as we need to be able to trust the email provided!
       # Docs: "This is considered insecure as not all OAuth providers verify email addresses, and may allow accounts to be hijacked."
