@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR21] (https://github.com/itk-dev/open-webui/pull/21)
+  Create WAS redirect link
 - [PR20] (https://github.com/itk-dev/open-webui/pull/20)
   Extra check of OIDC group mappings
 - [PR18](https://github.com/itk-dev/open-webui/pull/18)
