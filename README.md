@@ -66,5 +66,6 @@ So the following rules should help with this goal.
    declined, make a new pull request to the patche branch above based on what you change are.
 3. Then update the [change log](https://github.com/itk-dev/open-webui-docker/blob/main/CHANGELOG.md) in this repository,
    so we can track changes between releases.
+4. Wrap patches in a comment cleary stating it is a patch, and some text on what or why.
 
 
