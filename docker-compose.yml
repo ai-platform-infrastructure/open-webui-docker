@@ -94,7 +94,7 @@ services:
       AUDIO_TTS_OPENAI_API_BASE_URL: "https://tts.itkdev.dk/"
       AUDIO_TTS_OPENAI_API_KEY: ${TTS_API_KEY}
       # WAS
-      WAS_REDIRECT: ${WAS_REDIRECT:-"https://was.digst.dk/ai-aarhuskommune-dk"}
+      WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-"https://was.digst.dk/ai-aarhuskommune-dk"}
     networks:
       - app
       - frontend
