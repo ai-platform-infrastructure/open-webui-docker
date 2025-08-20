@@ -27,8 +27,6 @@ and this project adheres to [Semantic Versioning].
    Added permission to enable/disable image capture 
 - [PR13](https://github.com/itk-dev/open-webui/pull/13)
    Add functions to set role and groups from aak oidc org claims  
-- [PR13](https://github.com/itk-dev/open-webui/pull/13)
-   Add functions to set role and groups from aak oidc org claims  
 - [PR10](https://github.com/itk-dev/open-webui/pull/10)
    Show current model description above chat input
 - [PR9](https://github.com/itk-dev/open-webui/pull/9)
