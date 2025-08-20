@@ -104,7 +104,6 @@ services:
       # LOGIN INFO BANNER
       SYSTEM_REGISTER_URL: ${SYSTEM_REGISTER_URL:-"http://www.example.com"}
       SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-"http://www.example.org"}
-
     networks:
       - app
       - frontend

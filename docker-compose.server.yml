@@ -90,6 +90,9 @@ services:
       WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-"https://was.digst.dk/ai-aarhuskommune-dk"}
       # LOGO
       LOGO_URL: ${LOGO_URL:-"https://designguide.aarhus.dk/media/i1kjp3l1/png-lang-venstrejusteret-negativ-png-8-kb.png?format=noformat"}
+      # LOGIN INFO BANNER
+      SYSTEM_REGISTER_URL: ${SYSTEM_REGISTER_URL:-"http://www.example.com"}
+      SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-"http://www.example.org"}
     networks:
       - app
       - frontend
