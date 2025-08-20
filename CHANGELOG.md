@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR24] (https://github.com/itk-dev/open-webui/pull/24)
+  Login banner added (with urls from environment variables)
+- [PR23] (https://github.com/itk-dev/open-webui/pull/23)
+  LOGO_URL added as environment variable instead of hardcoded and image upload
+- [PR22] (https://github.com/itk-dev/open-webui/pull/22)
+  WAS redirect as environment variable to frontend through python config
 - [PR21] (https://github.com/itk-dev/open-webui/pull/21)
   Create WAS redirect link
 - [PR20] (https://github.com/itk-dev/open-webui/pull/20)
