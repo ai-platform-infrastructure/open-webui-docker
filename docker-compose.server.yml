@@ -88,6 +88,8 @@ services:
       FOLLOW_UP_GENERATION_PROMPT_TEMPLATE: "### Opgave:\nForeslå 3-5 relevante opfølgende spørgsmål eller prompts på samtalens primære sprog, som brugeren naturligt kunne stille i denne samtale som **bruger**, baseret på chat-historikken, for at hjælpe med at fortsætte eller uddybe diskussionen.\n\n### Retningslinjer:\n- Skriv alle opfølgende spørgsmål fra brugerens synspunkt, rettet mod assistenten.\n- Gør spørgsmålene korte, klare og direkte relateret til de emner, der er drøftet.\n- Foreslå kun opfølgninger, der giver mening i forhold til indholdet, og undgå gentagelser.\n- Hvis samtalen er meget kort eller ukonkret, foreslå mere generelle (men relevante) opfølgende spørgsmål.\n- Brug samtalens primære sprog; brug dansk som standard, hvis sproget er blandet.\n- Svaret skal være et JSON-array af strenge, uden ekstra tekst eller formattering.\n\n### Output:\nJSON-format: { \"follow_ups\": [\"Spørgsmål 1?\", \"Spørgsmål 2?\", \"Spørgsmål 3?\"] }\n\n### Chat-historik:\n<chat_history>\n{{MESSAGES:END:6}}\n</chat_history>"
       # WAS
       WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-"https://was.digst.dk/ai-aarhuskommune-dk"}
+      # LOGO
+      LOGO_URL: ${LOGO_URL:-"https://designguide.aarhus.dk/media/i1kjp3l1/png-lang-venstrejusteret-negativ-png-8-kb.png?format=noformat"}
     networks:
       - app
       - frontend
