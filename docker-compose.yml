@@ -95,6 +95,8 @@ services:
       AUDIO_TTS_OPENAI_API_KEY: ${TTS_API_KEY}
       # WAS
       WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-"https://was.digst.dk/ai-aarhuskommune-dk"}
+      # LOGO
+      LOGO_URL: ${LOGO_URL:-"https://designguide.aarhus.dk/media/i1kjp3l1/png-lang-venstrejusteret-negativ-png-8-kb.png?format=noformat"}
     networks:
       - app
       - frontend
