@@ -85,6 +85,9 @@ services:
       S3_SECRET_ACCESS_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
       S3_BUCKET_NAME: "openwebui"
       S3_USE_SSL: "false"
+      # Redis cache
+      REDIS_URL: redis://redis:6379/0
+      ENABLE_WEBSOCKET_SUPPORT: true
       # STT (whisper)
       AUDIO_STT_ENGINE: "openai"
       AUDIO_STT_OPENAI_API_BASE_URL: "https://whisper.itkdev.dk/"
@@ -258,3 +261,10 @@ services:
       - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.rule=Host(`minio.${COMPOSE_DOMAIN}`)"
       - "traefik.http.routers.minio-console-${COMPOSE_PROJECT_NAME}.service=minio-console-${COMPOSE_PROJECT_NAME}"
       - "traefik.http.services.minio-console-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9001"
+
+  redis:
+    image: redis:6.2.6
+    networks:
+      - app
+    ports:
+      - "6379"
