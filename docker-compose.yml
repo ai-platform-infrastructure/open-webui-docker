@@ -263,7 +263,7 @@ services:
       - "traefik.http.services.minio-console-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9001"
 
   redis:
-    image: redis:6.2.6
+    image: redis:7.4.2-alpine3.21
     networks:
       - app
     ports:
