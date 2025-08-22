@@ -101,12 +101,12 @@ services:
       TAGS_GENERATION_PROMPT_TEMPLATE: "### Opgave:\nGenerér 1-3 brede tags, der kategoriserer hovedtemaerne i chat-historikken, samt 1-3 mere specifikke undertags.\n\n### Retningslinjer:\n- Start med overordnede domæner (fx Sundhed, Kultur, Borgerservice, Teknik, Miljø, Omsorg, Sport, Fritid, Administration, Uddannelse).\n- Overvej at inkludere relevante underområder, hvis de er tydeligt repræsenteret i samtalen.\n- Hvis indholdet er for kort (under 3 beskeder) eller for varieret, brug kun [\"Generelt\"].\n- Skriv tags på samtalens primære sprog; brug dansk som standard, hvis sproget er blandet.\n- Prioritér præcision frem for overdreven specificitet.\n\n### Output:\nJSON-format: { \"tags\": [\"tag1\", \"tag2\", \"tag3\"] }\n\n### Chat-historik:\n<chat_history>\n{{MESSAGES:END:6}}\n</chat_history>"
       FOLLOW_UP_GENERATION_PROMPT_TEMPLATE: "### Opgave:\nForeslå 3-5 relevante opfølgende spørgsmål eller prompts på samtalens primære sprog, som brugeren naturligt kunne stille i denne samtale som **bruger**, baseret på chat-historikken, for at hjælpe med at fortsætte eller uddybe diskussionen.\n\n### Retningslinjer:\n- Skriv alle opfølgende spørgsmål fra brugerens synspunkt, rettet mod assistenten.\n- Gør spørgsmålene korte, klare og direkte relateret til de emner, der er drøftet.\n- Foreslå kun opfølgninger, der giver mening i forhold til indholdet, og undgå gentagelser.\n- Hvis samtalen er meget kort eller ukonkret, foreslå mere generelle (men relevante) opfølgende spørgsmål.\n- Brug samtalens primære sprog; brug dansk som standard, hvis sproget er blandet.\n- Svaret skal være et JSON-array af strenge, uden ekstra tekst eller formattering.\n\n### Output:\nJSON-format: { \"follow_ups\": [\"Spørgsmål 1?\", \"Spørgsmål 2?\", \"Spørgsmål 3?\"] }\n\n### Chat-historik:\n<chat_history>\n{{MESSAGES:END:6}}\n</chat_history>"
       # WAS
-      WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-"https://was.digst.dk/ai-aarhuskommune-dk"}
+      WAS_REDIRECT_URL: ${WAS_REDIRECT_URL:-https://was.digst.dk/ai-aarhuskommune-dk}
       # LOGO
-      LOGO_URL: ${LOGO_URL:-"https://designguide.aarhus.dk/media/i1kjp3l1/png-lang-venstrejusteret-negativ-png-8-kb.png?format=noformat"}
+      LOGO_URL: ${LOGO_URL:-https://designguide.aarhus.dk/media/i1kjp3l1/png-lang-venstrejusteret-negativ-png-8-kb.png?format=noformat}
       # LOGIN INFO BANNER
-      SYSTEM_REGISTER_URL: ${SYSTEM_REGISTER_URL:-"http://www.example.com"}
-      SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-"http://www.example.org"}
+      SYSTEM_REGISTER_URL: ${SYSTEM_REGISTER_URL:-http://www.example.com}
+      SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-http://www.example.org}
     networks:
       - app
       - frontend
