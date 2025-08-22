@@ -27,9 +27,9 @@ services:
       OTEL_BASIC_AUTH_USERNAME: ${OTEL_BASIC_AUTH_USERNAME-""}
       OTEL_BASIC_AUTH_PASSWORD: ${OTEL_BASIC_AUTH_PASSWORD-""}
       # OIDC
-      ENABLE_SIGNUP: false
-      ENABLE_LOGIN_FORM: true
-      ENABLE_OAUTH_SIGNUP: ${ENABLE_OAUTH_SIGNUP:-false}
+      ENABLE_SIGNUP: ${ENABLE_SIGNUP:-false}
+      ENABLE_LOGIN_FORM: ${ENABLE_LOGIN_FORM:-false}
+      ENABLE_OAUTH_SIGNUP: true
       # Important: Only use for AAK SSO/OIDC as we need to be able to trust the email provided!
       # Docs: "This is considered insecure as not all OAuth providers verify email addresses, and may allow accounts to be hijacked."
       # @see https://docs.openwebui.com/features/sso/#oauth
@@ -76,7 +76,6 @@ services:
       S3_USE_SSL: "false"
       # Redis cache
       REDIS_URL: redis://redis:6379/0
-      ENABLE_WEBSOCKET_SUPPORT: true
       # STT (whisper)
       AUDIO_STT_ENGINE: "openai"
       AUDIO_STT_OPENAI_API_BASE_URL: "https://whisper.itkdev.dk/"
