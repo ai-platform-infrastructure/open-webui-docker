@@ -76,6 +76,7 @@ services:
       S3_USE_SSL: "false"
       # Redis cache
       REDIS_URL: redis://redis:6379/0
+      ENABLE_WEBSOCKET_SUPPORT: true
       # STT (whisper)
       AUDIO_STT_ENGINE: "openai"
       AUDIO_STT_OPENAI_API_BASE_URL: "https://whisper.itkdev.dk/"
