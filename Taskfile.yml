@@ -38,7 +38,7 @@ tasks:
     dir: "{{ .TARGET_DIR }}"
     cmds:
       - for: { var: PATCHES }
-        cmd: curl -sSL {{ .ITEM.url }} | patch -p1
+        cmd: curl -sSL {{ .ITEM.url }} | patch -p1 --no-backup-if-mismatch
     silent: true
 
   clean-up:
