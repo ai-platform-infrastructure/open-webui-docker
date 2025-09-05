@@ -8,6 +8,11 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
+  OPEN_WEBUI_VERSION: 'merged/dev'
+  TARGET_DIR: 'open-webui'
+  PATCHES:
+    - name: 'Adding support for redis session storeage'
+      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
 
 tasks:
   default:
@@ -20,6 +25,29 @@ tasks:
     desc: "Run `docker compose` command. Example: task compose -- up --detach"
     cmds:
       - '{{ .DOCKER_COMPOSE }} {{ .CLI_ARGS }}'
+
+  clone:
+    desc: "Clone open-webui core"
+    cmds:
+      - git clone {{ .OPEN_WEBUI_REPO }}
+      - git checkout {{ .OPEN_WEBUI_VERSION }}
+    silent: true
+
+  patch:
+    desc: "Patch open-webui with custom patches"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - for: { var: PATCHES }
+        cmd: curl -sSL {{ .ITEM.url }} | patch -p1
+    silent: true
+
+  clean-up:
+    desc: ""
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - git reset --hard
+      - git checkout .
+      - git checkout {{ .OPEN_WEBUI_VERSION }}
 
   install:
     desc: "Install new web-ui"
@@ -57,14 +85,8 @@ tasks:
       - task compose -- run --rm -it -e ENV=dev node npm run build
     silent: true
 
-  clone:
-    desc: "Clone open-webui core"
-    cmds:
-      - git clone {{ .OPEN_WEBUI_REPO }}
-    silent: true
-
   open:
-    desc: Open the silent
+    desc: Open-webui in the browser
     cmds:
       - open http://{{ .BASE_URL }}
 
