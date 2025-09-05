@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning].
 
 ## [Unreleased]
 
+- [PR27] (https://github.com/itk-dev/open-webui/pull/27)
+  Login banner not using `<Banner`-component, and text changed
 - [PR24] (https://github.com/itk-dev/open-webui/pull/24)
   Login banner added (with urls from environment variables)
 - [PR23] (https://github.com/itk-dev/open-webui/pull/23)
