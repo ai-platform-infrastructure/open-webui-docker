@@ -9,20 +9,19 @@ vars:
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
   OPEN_WEBUI_VERSION: 'v0.6.26'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.26-3'
   TARGET_DIR: 'open-webui'
   PATCHES:
-    - name: 'Adding support for redis session storeage'
-      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
-    - name: 'Added banner on login page'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/30.diff'
-    - name: 'Added side-bar logo'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/31.diff'
+    - name: 'Frontend changes - login banner and sidebar logo'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/37.diff'
     - name: 'Pinned info banner'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/32.diff'
     - name: 'OIDC aak roles and groups'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/33.diff'
     - name: 'Ensured that role names from OIDC is kept'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
+    - name: 'Adding support for redis session storage'
+      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
 
 tasks:
   default:
@@ -36,7 +35,10 @@ tasks:
     cmds:
       - '{{ .DOCKER_COMPOSE }} {{ .CLI_ARGS }}'
 
-  sync:tags:
+  ####
+  ## Git helpers
+  ####
+  git:sync:tags:
     desc: "Sync tags from upstream repos"
     dir: "{{ .TARGET_DIR }}"
     cmds:
@@ -45,37 +47,48 @@ tasks:
       - git push --tags
       - git remote rm upstream
 
-  clone:
+  git:clone:
     desc: "Clone open-webui core"
     cmds:
       - git clone {{ .OPEN_WEBUI_REPO }}
       - git checkout {{ .OPEN_WEBUI_VERSION }}
     silent: true
 
+  git:reset:
+    desc: "Reset open-webui checkout to a specific version"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - git reset --hard
+      - git checkout .
+      - git checkout {{ .OPEN_WEBUI_VERSION }}
+    silent: true
+
+  ####
+  ## Install and setup (local helpers)
+  ####
   patch:
     desc: "Patch open-webui with custom patches"
     dir: "{{ .TARGET_DIR }}"
     cmds:
       - for: { var: PATCHES }
         cmd: curl -sSL {{ .ITEM.url }} | patch -p1 --no-backup-if-mismatch
-    silent: true
-
-  clean-up:
-    desc: ""
-    dir: "{{ .TARGET_DIR }}"
-    cmds:
-      - git reset --hard
-      - git checkout .
-      - git checkout {{ .OPEN_WEBUI_VERSION }}
+    silent: false
 
   install:
     desc: "Install new web-ui"
     cmds:
+      - task git:reset
+      - task patch
       - task copy:config
       - task compose -- pull
-      - task container:build
       - task compose -- up --detach --force-recreate
-      - task frontend:build
+      - task wui:frontend:build
+    silent: true
+
+  open:
+    desc: "Open-webui in the browser"
+    cmds:
+      - open http://{{ .BASE_URL }}
     silent: true
 
   copy:config:
@@ -83,39 +96,54 @@ tasks:
     cmds:
       - if ! [ -f litellm_config.yaml ]; then cp litellm_config.example.yaml litellm_config.yaml; fi
       - if ! [ -f .env ]; then cp .env.default .env; fi
-
-  container:build:
-    desc: "Build container with newest requirements"
-    cmds:
-      - task compose -- build
     silent: true
 
-  frontend:build:
+  wui:backend:build:
+    desc: "Build container with newest requirements"
+    cmds:
+      - task compose -- build --pull
+    silent: true
+
+  wui:frontend:build:
     desc: "Build frontend"
     cmds:
       - task compose -- run --rm -it node npm ci --force
       - task compose -- run --rm -it node npm run build
     silent: true
 
-  frontend:dev:build:
+  wui:frontend:dev:build:
     desc: "Build frontend"
     cmds:
       - task compose -- run --rm -it -e ENV=dev node npm ci --force
       - task compose -- run --rm -it -e ENV=dev node npm run build
     silent: true
 
-  open:
-    desc: Open-webui in the browser
-    cmds:
-      - open http://{{ .BASE_URL }}
-
-  prod:build:image:
+  ####
+  ## Production build
+  ####
+  prod:build:
     desc: Build docker image and push to docker hub
-    vars:
-      TAG: '{{if .CLI_ARGS}}{{.CLI_ARGS}}{{else}}beta{{end}}'
     cmds:
+      - |
+        echo "You are about to build and push production images:"
+        echo "  - itkdev/openwebui:{{.PROD_OPEN_WEBUI_VERSION}}"
+        echo "  - itkdev/openwebui:latest"
+        echo ""
+        read -p "Are you sure you want to continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Build cancelled."
+          exit 1
+        fi
+      - task prod:prepare
       - COMPOSE_BAKE=true docker compose --file docker-compose.yml build --no-cache --pull openwebui
-      - docker tag openwebui-openwebui itkdev/openwebui:{{.TAG}}
+      - docker tag openwebui-openwebui itkdev/openwebui:{{.PROD_OPEN_WEBUI_VERSION}}
       - docker tag openwebui-openwebui itkdev/openwebui:latest
-      - docker push itkdev/openwebui:{{.TAG}}
+      - docker push itkdev/openwebui:{{.PROD_OPEN_WEBUI_VERSION}}
       - docker push itkdev/openwebui:latest
+    silent: true
+
+  prod:prepare:
+    desc: "Prepare production build - reset git, patch, build"
+    cmds:
+      - task git:reset
+      - task patch
