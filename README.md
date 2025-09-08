@@ -48,14 +48,56 @@ This project requires us to make changes requested by the upstream project to al
 project may not appreciate some of these changes, so we need to be able to keep this project in sync with upstream and
 at the same time track local changes/patches to the codebase.
 
+We use branches and "local" pull request to track changes and go-task to manage the patches. The pull requests can be
+found at [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) notice the use of
+labels to mark PR's as patches when approved and to mark which are pending upstream.
 
+### Update pull requests
+
+When a new release is, well released, upstream, we need to update the patches to the new release.
+
+But first we need to update dev and main branches with upstream. This is easily done on GitHub. But as GitHub does not
+synchronize the tags, the following task can be used to do that.
+
+```shell
+task git:sync:tags
+```
+
+Then we can update the patches. This requires some manuale steps to ensure that the patches can be applied cleanly.
+First create a new branch based on the upstream tag, named `upstream/<release tag>`, which then is used as the new base
+branch for the patches.
+
+```shell
+task git:checkout:dev
+git checkout -b upstream/<release tag>
+git push origin -u upstream/<release tag>
+```
+
+Then goto [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) and changes each
+PR's base branch to the new branch.
+
+Lastly, locally `checkout` each branch and rebase it on the new base branch.
+
+```shell
+git checkout feature/<PR branch>
+git rebase --onto upstream/<new tag (e.g. v0.6.27)> upstream/<old tag (e.g. v0.6.26)> 
+```
+
+Resolve any conflicts (if any, using `add` and `rebase --continue`).
+
+```shell
+git add .
+git rebase --continue
+````
+
+Push the branch to the remote.
+```shell
+git push origin feature/<PR branch>
+```
 
 ### Branches
 
 * upstream/<release tag>
-
-
-git rebase --onto upstream/v0.6.26 upstream/v0.6.27
 
 ### Rules
 
@@ -66,8 +108,13 @@ So the following rules should help with this goal.
 2. Always first try to make at pull request back
    to [https://github.com/open-webui/open-webui/](https://github.com/open-webui/open-webui/), if the request is
    declined, make a new pull request to the patche branch above based on what you change are.
-3. Then update the [change log](https://github.com/itk-dev/open-webui-docker/blob/main/CHANGELOG.md) in this repository,
-   so we can track changes between releases.
-4. Wrap patches in a comment cleary stating it is a patch, and some text on what or why.
+3. Wrap patches in a comment clearly stating it is a patch, and some text on what or why.
 
+## Production
 
+To build image for production first edit the `Taskfile.yaml` and update the `PROD_OPEN_WEBUI_VERSION` variable to the
+desired version. The run:
+
+```shell
+task prod:build
+```
