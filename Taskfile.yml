@@ -1,14 +1,14 @@
 version: '3'
 
 # https://taskfile.dev/usage/#env-files
-dotenv: ['.env.local', '.env']
+dotenv: [ '.env.local', '.env' ]
 
 vars:
   # https://taskfile.dev/reference/templating/
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_VERSION: 'merged/dev'
+  OPEN_WEBUI_VERSION: 'v0.6.26'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Adding support for redis session storeage'
@@ -25,6 +25,15 @@ tasks:
     desc: "Run `docker compose` command. Example: task compose -- up --detach"
     cmds:
       - '{{ .DOCKER_COMPOSE }} {{ .CLI_ARGS }}'
+
+  sync:tags:
+    desc: "Sync tags from upstream repos"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - git remote add upstream https://github.com/open-webui/open-webui
+      - git fetch --tags upstream
+      - git push --tags
+      - git remote rm upstream
 
   clone:
     desc: "Clone open-webui core"
