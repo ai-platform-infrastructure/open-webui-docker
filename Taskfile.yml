@@ -22,6 +22,8 @@ vars:
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
     - name: 'Adding support for redis session storage'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
+    - name: 'Fixing docker image size'
+      url: 'https://github.com/open-webui/open-webui/commit/be373e9fd42ac73b0302bdb487e16dbeae178b4e.diff'
 
 tasks:
   default:
