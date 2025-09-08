@@ -13,6 +13,16 @@ vars:
   PATCHES:
     - name: 'Adding support for redis session storeage'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
+    - name: 'Added banner on login page'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/30.diff'
+    - name: 'Added side-bar logo'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/31.diff'
+    - name: 'Pinned info banner'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/32.diff'
+    - name: 'OIDC aak roles and groups'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/33.diff'
+    - name: 'Ensured that role names from OIDC is kept'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
 
 tasks:
   default:
