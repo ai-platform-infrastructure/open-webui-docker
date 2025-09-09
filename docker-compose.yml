@@ -148,6 +148,12 @@ services:
   #      HTTPS config - uncomment to enable redirect from :80 to :443
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      # WAS redirect configuration
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-was.rule=Host(`${COMPOSE_DOMAIN}`) && Path(`/was`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-was.middlewares=${COMPOSE_PROJECT_NAME}-was-redirect"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-was-redirect.redirectregex.regex=^https?://[^/]+/was$$"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-was-redirect.redirectregex.replacement=${WAS_REDIRECT_URL:-https://was.digst.dk/ai-aarhuskommune-dk}"
+      - "traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-was-redirect.redirectregex.permanent=true"
 
   postgres:
     image: postgres:17
