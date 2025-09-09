@@ -54,7 +54,7 @@ labels to mark PR's as patches when approved and to mark which are pending upstr
 
 ### Update pull requests
 
-When a new release is, well released, upstream, we need to update the patches to the new release.
+When a new upstream release is published, we need to update the patches to the new release.
 
 But first we need to update dev and main branches with upstream. This is easily done on GitHub. But as GitHub does not
 synchronize the tags, the following task can be used to do that.
