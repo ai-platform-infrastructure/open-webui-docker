@@ -158,9 +158,7 @@ services:
       - .docker/data/postgres:/var/lib/postgresql/data 
 
   tika:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/tika
+    image: itkdev/tika:3.2.0
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]

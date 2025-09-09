@@ -185,9 +185,7 @@ services:
       - ./open-webui:/app
 
   tika:
-    build:
-      dockerfile: Dockerfile
-      context: .docker/tika
+    image: itkdev/tika:3.2.0
     networks:
       - app
     healthcheck:
