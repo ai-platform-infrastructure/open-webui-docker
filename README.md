@@ -48,13 +48,13 @@ This project requires us to make changes requested by the project owner to align
 project may not appreciate some of these changes, so we need to be able to keep this project in sync with upstream and
 at the same time track local changes/patches to the codebase.
 
-We use branches and "local" pull request to track changes and go-task to manage the patches. The pull requests can be
+We use branches and "local" pull request against our own fork to track changes and go-task to manage the patches. The pull requests can be
 found at [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) notice the use of
 labels to mark PR's as patches when approved and to mark which are pending upstream.
 
 ### Update pull requests
 
-When a new release is, well released, upstream, we need to update the patches to the new release.
+When a new upstream release is published, we need to update the patches to the new release.
 
 But first we need to update dev and main branches with upstream. This is easily done on GitHub. But as GitHub does not
 synchronize the tags, the following task can be used to do that.
@@ -63,7 +63,7 @@ synchronize the tags, the following task can be used to do that.
 task git:sync:tags
 ```
 
-Then we can update the patches. This requires some manuale steps to ensure that the patches can be applied cleanly.
+Then we can update the patches. This requires some manual steps to ensure that the patches can be applied cleanly.
 First create a new branch based on the upstream tag, named `upstream/<release tag>`, which then is used as the new base
 branch for the patches.
 
