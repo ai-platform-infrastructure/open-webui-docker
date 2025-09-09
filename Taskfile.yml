@@ -45,7 +45,7 @@ tasks:
     dir: "{{ .TARGET_DIR }}"
     cmds:
       - |
-        echo "This will reset all changes and assumes that you already have synced the main and dev branches with upstream on github!"
+        echo "This assumes that you already have synced the main and dev branches with upstream on github!"
         echo ""
         read -p "Are you sure you want to continue? (y/N): " confirm
         if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
