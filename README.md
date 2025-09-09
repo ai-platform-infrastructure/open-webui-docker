@@ -44,20 +44,19 @@ tab: `/admin/settings/models`.
 
 ## Patching
 
-This project requires us to make changes requested by the project owner to align with the organization. The upstream
-project may not appreciate some of these changes, so we need to be able to keep this project in sync with upstream and
-at the same time track local changes/patches to the codebase.
+This project requires us to make changes that the upstream project may not appreciate. We need to be able to keep
+this project in sync with the upstream and at the same time track local changes/patches to the codebase.
 
-We use branches and "local" pull request against our own fork to track changes and go-task to manage the patches. The pull requests can be
-found at [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) notice the use of
-labels to mark PR's as patches when approved and to mark which are pending upstream.
+We use branches and local pull request against our own fork to track changes and go-task to manage the patches. The pull requests can be
+found [in this repository](https://github.com/itk-dev/open-webui/pulls). Notice the use of labels to mark pull requests as patches,
+mark when pull requests are approved and to mark which pull requests are pending upstream.
 
 ### Update pull requests
 
 When a new upstream release is published, we need to update the patches to the new release.
 
-But first we need to update dev and main branches with upstream. This is easily done on GitHub. But as GitHub does not
-synchronize the tags, the following task can be used to do that.
+First we need to update `dev` and `main` branches with upstream. This is easily done on GitHub. But as GitHub does not
+synchronize the tags, the following task can be used to do that:
 
 ```shell
 task git:sync:tags
@@ -73,10 +72,10 @@ git checkout -b upstream/<release tag>
 git push origin -u upstream/<release tag>
 ```
 
-Then goto [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) and changes each
+Then go to [https://github.com/itk-dev/open-webui/pulls](https://github.com/itk-dev/open-webui/pulls) and changes each
 PR's base branch to the new branch.
 
-Lastly, locally `checkout` each branch and rebase it on the new base branch.
+Lastly, checkout each branch locally and rebase it on the new base branch.
 
 ```shell
 git checkout feature/<PR branch>
@@ -88,7 +87,7 @@ Resolve any conflicts (if any, using `add` and `rebase --continue`).
 ```shell
 git add .
 git rebase --continue
-````
+```
 
 Push the branch to the remote.
 ```shell
@@ -97,7 +96,7 @@ git push origin feature/<PR branch>
 
 ### Branches
 
-* upstream/<release tag>
+* `upstream/<release tag>`
 
 ### Rules
 
