@@ -63,7 +63,7 @@ synchronize the tags, the following task can be used to do that.
 task git:sync:tags
 ```
 
-Then we can update the patches. This requires some manuale steps to ensure that the patches can be applied cleanly.
+Then we can update the patches. This requires some manual steps to ensure that the patches can be applied cleanly.
 First create a new branch based on the upstream tag, named `upstream/<release tag>`, which then is used as the new base
 branch for the patches.
 
