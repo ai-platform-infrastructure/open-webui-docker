@@ -44,7 +44,7 @@ tab: `/admin/settings/models`.
 
 ## Patching
 
-This project requires us to make changes requested by the upstream project to align with the organization. The upstream
+This project requires us to make changes requested by the project owner to align with the organization. The upstream
 project may not appreciate some of these changes, so we need to be able to keep this project in sync with upstream and
 at the same time track local changes/patches to the codebase.
 
