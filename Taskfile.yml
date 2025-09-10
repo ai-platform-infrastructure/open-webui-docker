@@ -8,22 +8,25 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_VERSION: 'v0.6.27'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.27-1'
+  OPEN_WEBUI_PREV_VERSION: 'v0.6.27'
+  OPEN_WEBUI_VERSION: 'v0.6.28'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.28-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/37.diff'
+      branch: "feature/front-end"
     - name: 'Pinned info banner'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/32.diff'
+      branch: "feature/pinned-info-banner"
     - name: 'OIDC aak roles and groups'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/33.diff'
+      branch: "feature/oidc-group-claims"
     - name: 'Ensured that role names from OIDC is kept'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
+      branch: "feature/keep-role-names"
     - name: 'Adding support for redis session storage'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
-    - name: 'Fixing docker image size'
-      url: 'https://github.com/open-webui/open-webui/commit/be373e9fd42ac73b0302bdb487e16dbeae178b4e.diff'
 
 tasks:
   default:
@@ -144,6 +147,55 @@ tasks:
     cmds:
       - task compose -- run --rm -it -e ENV=dev node npm ci --force
       - task compose -- run --rm -it -e ENV=dev node npm run build
+    silent: true
+
+  ####
+  ## Update webui version helpers (<-- danger zone -->)
+  ####
+  patches:rebase:
+    desc: "Rebase patch to laste release"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - |
+        echo "This will rebase all patches to open-webui {{ .OPEN_WEBUI_VERSION }} from {{ .OPEN_WEBUI_PREV_VERSION }}:"
+        echo ""
+        read -p "Are you sure you want to continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Install cancelled."
+          exit 1
+        fi
+      - for: { var: PATCHES }
+        cmd: |
+          if [ -n "{{ .ITEM.branch }}" ]; then
+            echo "Processing patch: {{ .ITEM.name }}"
+            git checkout {{ .ITEM.branch }}
+            git pull
+            git rebase --onto upstream/{{ .OPEN_WEBUI_VERSION }} upstream/{{ .OPEN_WEBUI_PREV_VERSION }}
+          else
+            echo "No branch specified for this '{{ .ITEM.name }}', skipping rebase"
+          fi
+      - git checkout upstream/{{ .OPEN_WEBUI_VERSION }}
+    silent: true
+
+  patches:force:
+    desc: "Force push all patches branches"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - |
+        echo "This will force push all patches branches:"
+        echo ""
+        read -p "Are you sure you want to continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Push cancelled."
+          exit 1
+        fi
+      - for: { var: PATCHES }
+        cmd: |
+          if [ -n "{{ .ITEM.branch }}" ]; then
+            git push origin {{ .ITEM.branch }} --force
+          else
+            echo "No branch specified for this '{{ .ITEM.name }}', skipping push"
+          fi
     silent: true
 
   ####
