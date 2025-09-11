@@ -190,14 +190,33 @@ services:
     image: itkdev/tika:3.2.0
     networks:
       - app
+    ports:
+      - "9998"
     healthcheck:
       test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 20s
+
+  doc-ingestion:
+    image: itkdev/doc-ingestion-route:latest
+    networks:
+      - app
     ports:
-      - "9998"
+      - "8000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    environment:
+      APP_NAME: Document Ingestion Router
+      API_KEY: 123456789
+      TIKA_BASE_URL: http://tika:9998
+      TIKA_USER: ''
+      TIKA_PASSWORD: ''
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
