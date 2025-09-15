@@ -159,6 +159,24 @@ services:
     volumes:
       - .docker/data/postgres:/var/lib/postgresql/data 
 
+  doc-ingestion:
+    image: itkdev/doc-ingestion-route:latest
+    restart: unless-stopped
+    networks:
+      - app
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    environment:
+      APP_NAME: Document Ingestion Router
+      API_KEY: ${DOC_API_KEY:-123456789}
+      TIKA_BASE_URL: ${DOC_TIKA_BASE_URL:-http://tika:9998}
+      TIKA_USER: ${DOC_TIKA_USER:-''}
+      TIKA_PASSWORD: ${DOC_TIKA_PASSWORD:-''}
+
   tika:
     image: itkdev/tika:3.2.0
     restart: unless-stopped
