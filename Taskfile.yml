@@ -28,9 +28,9 @@ vars:
     - name: 'Add token to TTS requests'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/38.diff'
       branch: 'feature/tts-token'
-    - name: 'Permission to disable image capture'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/35.diff'
-      branch: 'feature/image-capture-permission'
+    - name: 'Extra permissions'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/40.diff'
+      branch: 'feature/extra-permissions'
     - name: 'Adding support for redis session storage'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
 
