@@ -55,6 +55,9 @@ services:
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY}
       # RAG
       RAG_EMBEDDING_MODEL: ${RAG_EMBEDDING_MODEL:-intfloat/multilingual-e5-large}
+      CONTENT_EXTRACTION_ENGINE: ${CONTENT_EXTRACTION_ENGINE:-external}
+      EXTERNAL_DOCUMENT_LOADER_URL: ${EXTERNAL_DOCUMENT_LOADER_URL:-http://doc-ingestion:8000/api/v1}
+      EXTERNAL_DOCUMENT_LOADER_API_KEY: ${ODC_INGESTION_TOKEN:-123456789}
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
@@ -99,6 +102,8 @@ services:
       # LOGIN INFO BANNER
       SYSTEM_REGISTER_URL: ${SYSTEM_REGISTER_URL:-http://www.example.com}
       SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-http://www.example.org}
+      # Notes
+      ENABLE_NOTES: ${ENABLE_NOTES:-false}
     networks:
       - app
       - frontend
@@ -172,7 +177,7 @@ services:
       start_period: 40s
     environment:
       APP_NAME: Document Ingestion Router
-      API_KEY: ${DOC_API_KEY:-123456789}
+      API_KEY: ${ODC_INGESTION_TOKEN:-123456789}
       TIKA_BASE_URL: ${DOC_TIKA_BASE_URL:-http://tika:9998}
       TIKA_USER: ${DOC_TIKA_USER:-''}
       TIKA_PASSWORD: ${DOC_TIKA_PASSWORD:-''}

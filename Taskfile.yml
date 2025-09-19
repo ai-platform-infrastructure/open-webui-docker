@@ -10,7 +10,7 @@ vars:
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
   OPEN_WEBUI_PREV_VERSION: 'v0.6.28'
   OPEN_WEBUI_VERSION: 'v0.6.30'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.30-1'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.30-3'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -31,6 +31,9 @@ vars:
     - name: 'Extra permissions'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/40.diff'
       branch: 'feature/extra-permissions'
+    - name: 'Allow only admin users to generate API-KEY for the backend'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/41.diff'
+      branch: 'feature/admin-api-keys'
     - name: 'Adding support for redis session storage'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
 
