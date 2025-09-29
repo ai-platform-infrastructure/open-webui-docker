@@ -10,7 +10,7 @@ vars:
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
   OPEN_WEBUI_PREV_VERSION: 'v0.6.31'
   OPEN_WEBUI_VERSION: 'v0.6.32'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-1'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-2'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -34,6 +34,9 @@ vars:
     - name: 'Allow only admin users to generate API-KEY for the backend'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/41.diff'
       branch: 'feature/admin-api-keys'
+    - name: 'Fixed null error in auth database session handling'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/43.diff'
+      branch: 'feature/oauth_token_expire'
 #    - name: 'Adding support for redis session storage'
 #      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
 
