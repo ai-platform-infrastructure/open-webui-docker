@@ -8,14 +8,14 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_PREV_VERSION: 'v0.6.30'
-  OPEN_WEBUI_VERSION: 'v0.6.31'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.31-1'
+  OPEN_WEBUI_PREV_VERSION: 'v0.6.31'
+  OPEN_WEBUI_VERSION: 'v0.6.32'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/37.diff'
-      branch: 'feature/front-end'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/42.diff'
+      branch: 'feature/front-end-ii'
     - name: 'Pinned info banner'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/32.diff'
       branch: 'feature/pinned-info-banner'
@@ -180,6 +180,31 @@ tasks:
             git checkout {{ .ITEM.branch }}
             git pull
             git rebase --onto upstream/{{ .OPEN_WEBUI_VERSION }} upstream/{{ .OPEN_WEBUI_PREV_VERSION }}
+          else
+            echo "No branch specified for this '{{ .ITEM.name }}', skipping rebase"
+          fi
+      - git checkout upstream/{{ .OPEN_WEBUI_VERSION }}
+    silent: true
+
+  patches:reset:
+    desc: "Rest patch branched to GitHub version"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - |
+        echo "This will reset all patches to open-webui to current version on Github:"
+        echo ""
+        read -p "Are you sure you want to continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Install cancelled."
+          exit 1
+        fi
+      - for: { var: PATCHES }
+        cmd: |
+          if [ -n "{{ .ITEM.branch }}" ]; then
+            echo "Resetting patch: {{ .ITEM.name }}"
+            git checkout {{ .ITEM.branch }}
+            git reset --hard origin/{{ .ITEM.branch }}
+            git pull
           else
             echo "No branch specified for this '{{ .ITEM.name }}', skipping rebase"
           fi
