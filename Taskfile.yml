@@ -10,7 +10,7 @@ vars:
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
   OPEN_WEBUI_PREV_VERSION: 'v0.6.31'
   OPEN_WEBUI_VERSION: 'v0.6.32'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-3'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-4'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -44,8 +44,8 @@ vars:
       url: 'https://github.com/open-webui/open-webui/commit/58efa18f96919ab32ad776c92e12f091c97038d9.diff'
     - name: 'disable direct models from model editors'
       url: 'https://github.com/open-webui/open-webui/commit/8c662c65a9c5db655ba7982866f75f06a58753e8.diff'
-#    - name: 'Adding support for redis session storage'
-#      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17223.diff'
+    - name: 'Fix search model drop-down'
+      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17960.diff'
 
 tasks:
   default:
