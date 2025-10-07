@@ -10,7 +10,7 @@ vars:
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
   OPEN_WEBUI_PREV_VERSION: 'v0.6.31'
   OPEN_WEBUI_VERSION: 'v0.6.32'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-4'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-5'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'

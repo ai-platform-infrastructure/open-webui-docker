@@ -105,6 +105,11 @@ services:
       SYSTEM_REGISTER_GUIDE_URL: ${SYSTEM_REGISTER_GUIDE_URL:-http://www.example.org}
       # Notes
       ENABLE_NOTES: ${ENABLE_NOTES:-false}
+      # Vector store
+      VECTOR_DB: "qdrant"
+      QDRANT_URI: "http://qdrant:6333"
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-123456789}
+      ENABLE_QDRANT_MULTITENANCY_MODE: "True"
     networks:
       - app
       - frontend
@@ -266,3 +271,16 @@ services:
     image: redis:7.4.2-alpine3.21
     networks:
       - app
+
+  qdrant:
+    image: qdrant/qdrant:v1.15-unprivileged
+    networks:
+      - frontend
+      - app
+    ports:
+      - '6333'
+      - '6334'
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:-123456789}
+    volumes:
+      - ./.docker/data/qdrant:/qdrant/storage:rw
