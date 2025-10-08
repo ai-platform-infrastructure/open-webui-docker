@@ -8,9 +8,9 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_PREV_VERSION: 'v0.6.31'
-  OPEN_WEBUI_VERSION: 'v0.6.32'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.32-5'
+  OPEN_WEBUI_PREV_VERSION: 'v0.6.32'
+  OPEN_WEBUI_VERSION: 'v0.6.33'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.33-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -40,13 +40,7 @@ vars:
     - name: 'Expose file metadata URL in citation modal'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/44.diff'
       branch: 'feature/citation-modal-url'
-    # Patches to 0.6.32
-    - name: 'default permissions not being loaded'
-      url:  'https://github.com/open-webui/open-webui/commit/887772db22e44c63fd8dcbcfc319464b407f00e8.diff'
-    - name: 'ai hallucination'
-      url: 'https://github.com/open-webui/open-webui/commit/58efa18f96919ab32ad776c92e12f091c97038d9.diff'
-    - name: 'disable direct models from model editors'
-      url: 'https://github.com/open-webui/open-webui/commit/8c662c65a9c5db655ba7982866f75f06a58753e8.diff'
+    # Patches upstream
     - name: 'Fix search model drop-down'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17960.diff'
 
