@@ -34,6 +34,7 @@ services:
       DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en-GB}
       # OPEN TELEMETRY
       ENABLE_OTEL: ${ENABLE_OTEL:-false}
+      ENABLE_OTEL: ${ENABLE_OTEL:-false}
       ENABLE_OTEL_METRICS: ${ENABLE_OTEL_METRICS:-false}
       ENABLE_OTEL_TRACES: ${ENABLE_OTEL_TRACES:-false}
       ENABLE_OTEL_LOGS: ${ENABLE_OTEL_LOGS:-false}
@@ -72,6 +73,7 @@ services:
       CONTENT_EXTRACTION_ENGINE: ${CONTENT_EXTRACTION_ENGINE:-external}
       EXTERNAL_DOCUMENT_LOADER_URL: ${EXTERNAL_DOCUMENT_LOADER_URL:-http://doc-ingestion:8000/api/v1}
       EXTERNAL_DOCUMENT_LOADER_API_KEY: ${ODC_INGESTION_TOKEN:-123456789}
+      CHUNK_SIZE: 500
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
@@ -97,8 +99,10 @@ services:
       S3_BUCKET_NAME: "openwebui"
       S3_USE_SSL: "false"
       # Redis cache
-      REDIS_URL: redis://redis:6379/0
+      REDIS_URL: redis://redis:6379/1
       ENABLE_WEBSOCKET_SUPPORT: true
+      WEBSOCKET_MANAGER: redis
+      WEBSOCKET_REDIS_URL: redis://redis:6379/0
       # STT (whisper)
       AUDIO_STT_ENGINE: "openai"
       AUDIO_STT_OPENAI_API_BASE_URL: "https://whisper.itkdev.dk/"

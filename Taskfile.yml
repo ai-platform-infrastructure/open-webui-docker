@@ -43,6 +43,9 @@ vars:
     # Patches upstream
     - name: 'Fix search model drop-down'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17960.diff'
+    # 0.6.33 patches
+    - name: 'Fixed RAG'
+      url: 'https://github.com/open-webui/open-webui/commit/c4832fdb7033e6787961e21eb81e2671519cf87d.diff'
 
 tasks:
   default:
