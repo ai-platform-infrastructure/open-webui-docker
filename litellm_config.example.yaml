@@ -16,3 +16,17 @@ model_list:
       model: openai/mistralai/Mistral-7B-Instruct-v0.3
       api_key: ""
       api_base: https://vllm.srvitkcaiaavllm01.itkdev.dk/v1
+    guardrails:
+      - message_trimming
+
+guardrails:
+  - guardrail_name: "message_trimming"
+    litellm_params:
+      guardrail: message_overflow.MessageTrimmingGuardrail
+      mode: "pre_call"
+      default_on: true
+    default_config:
+      trim_ratio: 0.75
+      max_output_tokens: 2000
+      safety_buffer: 500
+      debug: true
