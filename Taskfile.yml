@@ -8,9 +8,9 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_PREV_VERSION: 'v0.6.32'
-  OPEN_WEBUI_VERSION: 'v0.6.33'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.33-3'
+  OPEN_WEBUI_PREV_VERSION: 'v0.6.33'
+  OPEN_WEBUI_VERSION: 'v0.6.34'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.34-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -44,8 +44,8 @@ vars:
     - name: 'Fix search model drop-down'
       url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17960.diff'
     # 0.6.33 patches
-    - name: 'Fixed RAG'
-      url: 'https://github.com/open-webui/open-webui/commit/c4832fdb7033e6787961e21eb81e2671519cf87d.diff'
+    #- name: 'Fixed RAG'
+    #  url: 'https://github.com/open-webui/open-webui/commit/c4832fdb7033e6787961e21eb81e2671519cf87d.diff'
 
 tasks:
   default:
@@ -113,7 +113,8 @@ tasks:
     dir: "{{ .TARGET_DIR }}"
     cmds:
       - for: { var: PATCHES }
-        cmd: curl -sSL {{ .ITEM.url }} | patch -p1 --no-backup-if-mismatch
+        cmd: |
+          curl -H 'Cache-Control: no-cache, no-store' -sSL {{ .ITEM.url }} | patch -p1 --no-backup-if-mismatch
     silent: false
 
   install:
