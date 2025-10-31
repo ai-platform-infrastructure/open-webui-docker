@@ -314,7 +314,6 @@ services:
   qdrant:
     image: qdrant/qdrant:v1.15-unprivileged
     networks:
-      - frontend
       - app
     ports:
       - '6333'
@@ -327,7 +326,6 @@ services:
   searxng:
     image: searxng/searxng:latest
     networks:
-      - frontend
       - app
     ports:
       - '8080'

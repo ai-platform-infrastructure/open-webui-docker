@@ -209,11 +209,11 @@ services:
       "--num_workers", "8"
     ]
     restart: unless-stopped
+    networks:
+      - app
     environment:
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-1234}
       LITELLM_SALT_KEY: ${LITELLM_SALT_KEY:-sk-1234}
-    networks:
-      - app
     healthcheck:
       test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:4000/health/liveliness" ]
       interval: 30s
@@ -239,13 +239,13 @@ services:
 
   minio:
     image: minio/minio:latest
+    command: server /data --console-address ":9001"
     restart: unless-stopped
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     networks:
       - app
-      - frontend
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
       interval: 30s
@@ -253,32 +253,31 @@ services:
       retries: 3
     volumes:
       - .docker/data/minio:/data
-    command: server /data --console-address ":9001"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=frontend"
-      # MinIO Console
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}-http.rule=Host(`minio-${COMPOSE_SERVER_DOMAIN}`)"
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}-http.entrypoints=web"
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}-http.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}.rule=Host(`minio-${COMPOSE_SERVER_DOMAIN}`)"
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}.entrypoints=websecure"
-      # Add service with the UI port
-      - "traefik.http.routers.minio-${COMPOSE_PROJECT_NAME}.service=minio-${COMPOSE_PROJECT_NAME}"
-      - "traefik.http.services.minio-${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=9001"
 
   redis:
     image: redis:7.4.2-alpine3.21
+    restart: unless-stopped
     networks:
       - app
 
   qdrant:
     image: qdrant/qdrant:v1.15-unprivileged
+    restart: unless-stopped
     networks:
-      - frontend
       - app
     environment:
       QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:-123456789}
     volumes:
       - ./.docker/data/qdrant:/qdrant/storage:rw
+
+  searxng:
+    image: searxng/searxng:latest
+    restart: unless-stopped
+    networks:
+      - app
+    environment:
+      SEARXNG_SECRET: ${SEARXNG_SECRET:-MySuperSecret}
+      SEARXNG_METHOD: ${SEARXNG_METHOD:-POST}
+    volumes:
+      - ./.docker/searxng/settings.yml:/etc/searxng/settings.yml
+      - ./.docker/data/searxng/data/:/var/cache/searxng/
