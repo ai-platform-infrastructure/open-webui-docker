@@ -126,6 +126,12 @@ services:
       QDRANT_URI: "http://qdrant:6333"
       QDRANT_API_KEY: ${QDRANT_API_KEY:-123456789}
       ENABLE_QDRANT_MULTITENANCY_MODE: "True"
+      # Web-search
+      ENABLE_RAG_WEB_SEARCH: true
+      RAG_WEB_SEARCH_ENGINE: "searxng"
+      RAG_WEB_SEARCH_RESULT_COUNT: 3
+      RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 10
+      SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
     networks:
       - app
       - frontend
