@@ -197,10 +197,8 @@ services:
       TIKA_PASSWORD: ${DOC_TIKA_PASSWORD:-''}
 
   tika:
-    image: itkdev/tika:3.2.0
+    image: itkdev/tika:3.2.3
     restart: unless-stopped
-    environment:
-      - JAVA_OPTS=-Xmx3g -Xms2g -XX:+UseG1GC
     deploy:
       resources:
         limits:

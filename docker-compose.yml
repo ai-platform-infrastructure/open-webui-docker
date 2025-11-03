@@ -209,13 +209,11 @@ services:
       - ./open-webui:/app
 
   tika:
-    image: itkdev/tika:3.2.0
+    image: itkdev/tika:3.2.3
     networks:
       - app
     ports:
       - "9998"
-    environment:
-      - JAVA_OPTS=-Xmx3g -Xms2g -XX:+UseG1GC
     healthcheck:
       test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
       interval: 30s
