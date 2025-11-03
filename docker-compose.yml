@@ -72,6 +72,7 @@ services:
       CONTENT_EXTRACTION_ENGINE: ${CONTENT_EXTRACTION_ENGINE:-external}
       EXTERNAL_DOCUMENT_LOADER_URL: ${EXTERNAL_DOCUMENT_LOADER_URL:-http://doc-ingestion:8000/api/v1}
       EXTERNAL_DOCUMENT_LOADER_API_KEY: ${ODC_INGESTION_TOKEN:-123456789}
+      RAG_EMBEDDING_BATCH_SIZE: ${RAG_EMBEDDING_BATCH_SIZE:-64}
       CHUNK_SIZE: 500
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
@@ -213,6 +214,8 @@ services:
       - app
     ports:
       - "9998"
+    environment:
+      - JAVA_OPTS=-Xmx3g -Xms2g -XX:+UseG1GC
     healthcheck:
       test: [ "CMD", "wget", "-O", "/dev/null", "-q", "http://127.0.0.1:9998/" ]
       interval: 30s
