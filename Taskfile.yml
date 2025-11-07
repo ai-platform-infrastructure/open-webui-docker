@@ -8,9 +8,9 @@ vars:
   BASE_URL: '{{.TASK_BASE_URL | default .COMPOSE_SERVER_DOMAIN | default .COMPOSE_DOMAIN }}'
   DOCKER_COMPOSE: '{{ .TASK_DOCKER_COMPOSE | default "itkdev-docker-compose" }}'
   OPEN_WEBUI_REPO: 'https://github.com/itk-dev/open-webui.git'
-  OPEN_WEBUI_PREV_VERSION: 'v0.6.33'
-  OPEN_WEBUI_VERSION: 'v0.6.34'
-  PROD_OPEN_WEBUI_VERSION: 'v0.6.34-2'
+  OPEN_WEBUI_PREV_VERSION: 'v0.6.34'
+  OPEN_WEBUI_VERSION: 'v0.6.36'
+  PROD_OPEN_WEBUI_VERSION: 'v0.6.36-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
     - name: 'Frontend changes - login banner and sidebar logo'
@@ -40,12 +40,9 @@ vars:
     - name: 'Expose file metadata URL in citation modal'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/44.diff'
       branch: 'feature/citation-modal-url'
-    # Patches upstream
     - name: 'Fix search model drop-down'
-      url: 'https://patch-diff.githubusercontent.com/raw/open-webui/open-webui/pull/17960.diff'
-    # 0.6.33 patches
-    #- name: 'Fixed RAG'
-    #  url: 'https://github.com/open-webui/open-webui/commit/c4832fdb7033e6787961e21eb81e2671519cf87d.diff'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/45.diff'
+      branch: 'feature/model-search'
 
 tasks:
   default:
@@ -114,7 +111,7 @@ tasks:
     cmds:
       - for: { var: PATCHES }
         cmd: |
-          curl -H 'Cache-Control: no-cache, no-store' -sSL {{ .ITEM.url }} | patch -p1 --no-backup-if-mismatch
+          curl -H 'Cache-Control: no-cache, no-store' -sSL {{ .ITEM.url }} | git apply --verbose -
     silent: false
 
   install:
