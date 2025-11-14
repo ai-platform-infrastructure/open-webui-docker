@@ -7,7 +7,7 @@ https://docs.openwebui.com/
 Use the task file to install it.
 
 ```shell
-task clone
+task git:clone
 task install
 ```
 
