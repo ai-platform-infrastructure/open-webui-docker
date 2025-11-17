@@ -30,6 +30,7 @@ services:
       WEBUI_URL: "https://${COMPOSE_DOMAIN}"
       CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-*}
       USER_AGENT: ${USER_AGENT:-'Aarhus Kommune AI'}
+      ENABLE_PERSISTENT_CONFIG: ${ENABLE_PERSISTENT_CONFIG:-true}
       # Language/local
       DEFAULT_LOCALE: ${DEFAULT_LOCALE:-en-GB}
       # OPEN TELEMETRY
@@ -77,8 +78,10 @@ services:
       # Disable ollama as default, prevent UI from freezing when not available on localhost.
       ENABLE_OLLAMA_API: false
       OLLAMA_BASE_URL: 'http://localhost:11434'
-      # Disable OpenAI.
-      ENABLE_OPENAI_API: false
+      # Enable OpenAI.
+      ENABLE_OPENAI_API: true
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-http://litellm:4000/v1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-sk-1234}
       # Disable direct connections (do not allow users to connect to new servers)
       ENABLE_DIRECT_CONNECTIONS: ${ENABLE_DIRECT_CONNECTIONS:-false}
       # User profile notification webhooks
@@ -174,12 +177,17 @@ services:
       QDRANT_API_KEY: ${QDRANT_API_KEY:-123456789}
       ENABLE_QDRANT_MULTITENANCY_MODE: "True"
       # Web-search
-      ENABLE_RAG_WEB_SEARCH: true
-      RAG_WEB_SEARCH_ENGINE: "searxng"
-      RAG_WEB_SEARCH_RESULT_COUNT: 3
-      RAG_WEB_SEARCH_CONCURRENT_REQUESTS: 10
+      ENABLE_WEB_SEARCH: true
+      WEB_SEARCH_ENGINE: "searxng"
+      WEB_SEARCH_RESULT_COUNT: 3
+      WEB_SEARCH_CONCURRENT_REQUESTS: 10
       SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
       ENABLE_QUERIES_CACHE: ${ENABLE_QUERIES_CACHE:-"True"}
+      # Code execution
+      ENABLE_CODE_EXECUTION: ${ENABLE_CODE_EXECUTION:-false}
+      ENABLE_CODE_INTERPRETER: ${ENABLE_CODE_INTERPRETER:-false}
+      # Disable follow-up generation
+      ENABLE_FOLLOW_UP_GENERATION: false
     networks:
       - app
       - frontend
