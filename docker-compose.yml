@@ -286,6 +286,16 @@ services:
       TIKA_BASE_URL: http://tika:9998
       TIKA_USER: ''
       TIKA_PASSWORD: ''
+      # HTTP Client connection pool settings to tika
+      HTTP_MAX_CONNECTIONS: 100
+      HTTP_MAX_KEEPALIVE_CONNECTIONS: 20
+      HTTP_KEEPALIVE_EXPIRY: 30.0
+      HTTP_ENABLE_HTTP2: true
+      # HTTP Client timeout settings (in seconds) to tika
+      HTTP_TIMEOUT_CONNECT: 10.0
+      HTTP_TIMEOUT_READ: 900.0
+      HTTP_TIMEOUT_WRITE: 60.0
+      HTTP_TIMEOUT_POOL: 10.0
 
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
