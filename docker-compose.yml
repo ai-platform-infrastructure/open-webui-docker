@@ -407,3 +407,5 @@ services:
     volumes:
       - ./.docker/searxng/settings.yml:/etc/searxng/settings.yml
       - ./.docker/data/searxng/data/:/var/cache/searxng/
+      - ./.docker/searxng/aarhus.py:/usr/local/searxng/searx/engines/aarhus.py
+
