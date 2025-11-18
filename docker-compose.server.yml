@@ -169,8 +169,8 @@ services:
       SEARXNG_QUERY_URL: "http://searxng:8080/search?q=<query>"
       ENABLE_QUERIES_CACHE: ${ENABLE_QUERIES_CACHE:-"True"}
       # Code execution
-      ENABLE_CODE_EXECUTION: ${ENABLE_CODE_EXECUTION:-true}
-      ENABLE_CODE_INTERPRETER: ${ENABLE_CODE_INTERPRETER:-false}
+      ENABLE_CODE_EXECUTION: ${ENABLE_CODE_EXECUTION:-"True"}
+      ENABLE_CODE_INTERPRETER: ${ENABLE_CODE_INTERPRETER:-"False"}
       # Disable follow-up generation
       ENABLE_FOLLOW_UP_GENERATION: false
     networks:
