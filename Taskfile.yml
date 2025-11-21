@@ -13,18 +13,9 @@ vars:
   PROD_OPEN_WEBUI_VERSION: 'v0.6.36-1'
   TARGET_DIR: 'open-webui'
   PATCHES:
-    - name: 'Frontend changes - login banner and sidebar logo'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/42.diff'
-      branch: 'feature/front-end-ii'
     - name: 'Pinned info banner'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/32.diff'
       branch: 'feature/pinned-info-banner'
-    - name: 'OIDC aak roles and groups'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/33.diff'
-      branch: 'feature/oidc-group-claims'
-    - name: 'Ensured that role names from OIDC is kept'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
-      branch: 'feature/keep-role-names'
     - name: 'Add token to TTS requests'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/38.diff'
       branch: 'feature/tts-token'
@@ -37,12 +28,24 @@ vars:
     - name: 'Fixed null error in auth database session handling'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/43.diff'
       branch: 'feature/oauth_token_expire'
-    - name: 'Expose file metadata URL in citation modal'
-      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/44.diff'
-      branch: 'feature/citation-modal-url'
     - name: 'Fix search model drop-down'
       url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/45.diff'
       branch: 'feature/model-search'
+  PATCHES_AARHUS:
+    - name: 'Frontend changes - login banner and sidebar logo'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/42.diff'
+      branch: 'feature/front-end-ii'
+    - name: 'OIDC aak roles and groups'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/33.diff'
+      branch: 'feature/oidc-group-claims'
+    - name: 'Ensured that role names from OIDC is kept'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/34.diff'
+      branch: 'feature/keep-role-names'
+    - name: 'Expose file metadata URL in citation modal'
+      url: 'https://patch-diff.githubusercontent.com/raw/itk-dev/open-webui/pull/44.diff'
+      branch: 'feature/citation-modal-url'
+  ALL_PATCHES:
+    sh: echo '{{ .PATCHES | toJson }}{{ .PATCHES_AARHUS | toJson }}' | jq -s 'add'
 
 tasks:
   default:
@@ -106,10 +109,25 @@ tasks:
   ## Install and setup (local helpers)
   ####
   patch:
-    desc: "Patch open-webui with custom patches"
+    desc: "Patch open-webui with ALL custom patches"
+    cmds:
+      - task: patch:base
+      - task: patch:aarhus
+
+  patch:base:
+    desc: "Patch open-webui with genral custom patches"
     dir: "{{ .TARGET_DIR }}"
     cmds:
       - for: { var: PATCHES }
+        cmd: |
+          curl -H 'Cache-Control: no-cache, no-store' -sSL {{ .ITEM.url }} | git apply --verbose -
+    silent: false
+
+  patch:aarhus:
+    desc: "Patch open-webui with custom Aarhus patches"
+    dir: "{{ .TARGET_DIR }}"
+    cmds:
+      - for: { var: PATCHES_AARHUS }
         cmd: |
           curl -H 'Cache-Control: no-cache, no-store' -sSL {{ .ITEM.url }} | git apply --verbose -
     silent: false
@@ -181,7 +199,7 @@ tasks:
           echo "Install cancelled."
           exit 1
         fi
-      - for: { var: PATCHES }
+      - for: { var: ALL_PATCHES }
         cmd: |
           if [ -n "{{ .ITEM.branch }}" ]; then
             echo "Processing patch: {{ .ITEM.name }}"
@@ -206,7 +224,7 @@ tasks:
           echo "Install cancelled."
           exit 1
         fi
-      - for: { var: PATCHES }
+      - for: { var: ALL_PATCHES }
         cmd: |
           if [ -n "{{ .ITEM.branch }}" ]; then
             echo "Resetting patch: {{ .ITEM.name }}"
@@ -231,7 +249,7 @@ tasks:
           echo "Push cancelled."
           exit 1
         fi
-      - for: { var: PATCHES }
+      - for: { var: ALL_PATCHES }
         cmd: |
           if [ -n "{{ .ITEM.branch }}" ]; then
             git push origin {{ .ITEM.branch }} --force
@@ -270,3 +288,34 @@ tasks:
     cmds:
       - task git:reset
       - task patch
+
+  ####
+  ## Production build (AarhusAI shared images)
+  ####
+  prod:build:aarhusai:
+    desc: Build docker image and push to docker hub
+    cmds:
+      - |
+        echo "You are about to build and push production images:"
+        echo "  - ghcr.io/aarhusai/open-webui:{{.PROD_OPEN_WEBUI_VERSION}}"
+        echo "  - ghcr.io/aarhusai/open-webui:latest"
+        echo ""
+        read -p "Are you sure you want to continue? (y/N): " confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+          echo "Build cancelled."
+          exit 1
+        fi
+      - task: prod:prepare:aarhusai
+      - COMPOSE_BAKE=true docker compose --file docker-compose.yml build --no-cache --pull openwebui
+      - docker tag openwebui-openwebui ghcr.io/aarhusai/open-webui:{{.PROD_OPEN_WEBUI_VERSION}}
+      - docker tag openwebui-openwebui ghcr.io/aarhusai/open-webui:latest
+      - docker push ghcr.io/aarhusai/open-webui:{{.PROD_OPEN_WEBUI_VERSION}}
+      - docker push ghcr.io/aarhusai/open-webui:latest
+    silent: true
+
+  prod:prepare:aarhusai:
+    desc: "Prepare production build for AarhusAI - reset git, patch"
+    internal: true
+    cmds:
+      - task git:reset
+      - task patch:base
