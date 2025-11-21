@@ -267,7 +267,7 @@ tasks:
       PATCH_TASK: '{{ .PATCH_TASK | default "patch" }}'
     cmds:
       - task: git:reset
-      - task: {{ .PATCH_TASK }}
+      - task: '{{ .PATCH_TASK }}'
 
   prod:build:shared:
     desc: "Build and push docker image with custom registry and image name"
@@ -288,7 +288,7 @@ tasks:
         fi
       - task: prod:prepare
         vars:
-          PATCH_TASK: {{ .PATCH_TASK }}
+          PATCH_TASK: '{{ .PATCH_TASK }}'
       - COMPOSE_BAKE=true docker compose --file docker-compose.yml build --no-cache --pull openwebui
       - docker tag openwebui-openwebui {{ .IMAGE_NAME }}:{{.PROD_OPEN_WEBUI_VERSION}}
       - docker tag openwebui-openwebui {{ .IMAGE_NAME }}:latest
